@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35431.28
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InhumanShopApp", "InhumanShopApp\InhumanShopApp.csproj", "{E6ED6CEC-D002-4970-9272-D94F46E8F7C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InhumanShopApp", "InhumanShopApp\InhumanShopApp.csproj", "{E6ED6CEC-D002-4970-9272-D94F46E8F7C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InhumanShopApp.BuisnesLogic", "InhumanShopApp.BuisnesLogic\InhumanShopApp.BuisnesLogic.csproj", "{05D77BFD-4273-4065-B426-10C88DAC8E66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InhumanShopApp.Infrastructure", "InhumanShopApp.Infrastructure\InhumanShopApp.Infrastructure.csproj", "{72BCF124-268E-4ABD-8B17-C94B531932C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{E6ED6CEC-D002-4970-9272-D94F46E8F7C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6ED6CEC-D002-4970-9272-D94F46E8F7C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6ED6CEC-D002-4970-9272-D94F46E8F7C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05D77BFD-4273-4065-B426-10C88DAC8E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05D77BFD-4273-4065-B426-10C88DAC8E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05D77BFD-4273-4065-B426-10C88DAC8E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05D77BFD-4273-4065-B426-10C88DAC8E66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72BCF124-268E-4ABD-8B17-C94B531932C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72BCF124-268E-4ABD-8B17-C94B531932C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72BCF124-268E-4ABD-8B17-C94B531932C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72BCF124-268E-4ABD-8B17-C94B531932C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
