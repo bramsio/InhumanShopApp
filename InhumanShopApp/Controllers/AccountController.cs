@@ -13,5 +13,9 @@ namespace InhumanShopApp.Controllers
         {
             return View();
         }
+        public IActionResult VerifyEmail()
+        {
+            return View();
+        }
     }
 }
