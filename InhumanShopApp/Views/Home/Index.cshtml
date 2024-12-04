@@ -1,6 +1,22 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var successMessage = TempData["SuccessMessage"] as string;
 }
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @successMessage
+    </div>
+
+    <script>
+        // Скриваме съобщението след 5 секунди
+        setTimeout(function () {
+            document.querySelector('.alert').style.display = 'none';
+        }, 5000);
+    </script>
+}
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
