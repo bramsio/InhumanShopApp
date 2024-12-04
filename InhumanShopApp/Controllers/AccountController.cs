@@ -1,8 +1,11 @@
-﻿using InhumanShopApp.Infrastructure.Data.Models;
+﻿using InhumanShopApp.Data;
+using InhumanShopApp.Infrastructure.Data.Models;
 using InhumanShopApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace InhumanShopApp.Controllers
 {
@@ -10,11 +13,13 @@ namespace InhumanShopApp.Controllers
     {
         private readonly SignInManager<Users> signInManager;
         private readonly UserManager<Users> userManager;
+        private readonly ApplicationDbContext context;
 
-        public AccountController(SignInManager<Users> signInManager, UserManager<Users> userManager)
+        public AccountController(SignInManager<Users> signInManager, UserManager<Users> userManager, ApplicationDbContext context)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.context = context;
         }
 
         public IActionResult Login()
@@ -27,7 +32,7 @@ namespace InhumanShopApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
 
                 if (result.Succeeded)
                 {
@@ -159,5 +164,120 @@ namespace InhumanShopApp.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var model = new ProfileViewModel
+            {
+                Id = user.Id,
+                Name = user.FullName,
+                Email = user.Email,
+            };
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ConfirmationForEdit()
+        {
+            return View(); 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConfirmationForEdit(string password)
+        {
+            var user = await userManager.GetUserAsync(User);
+
+            if (user != null)
+            {
+                var passwordValid = await userManager.CheckPasswordAsync(user, password);
+
+                if (passwordValid)
+                {
+                    var model = new ProfileViewModel
+                    {
+                        Id = user.Id,
+                        Name = user.FullName,
+                        Email = user.Email,
+                    };
+                    return View("Edit", model);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid password");
+                }
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile(ProfileViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.NewPassword))
+            {
+                ModelState.Remove("NewPassword"); 
+            }
+
+            if (ModelState.IsValid)
+            {
+                var user = await context.Users.FindAsync(model.Id);
+
+                if (user != null)
+                {
+                    user.FullName = model.Name;
+                    user.Email = model.Email;
+
+                    if (!string.IsNullOrEmpty(model.NewPassword))
+                    {
+                        var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                        var result = await userManager.ResetPasswordAsync(user, token, model.NewPassword);
+
+                        if (!result.Succeeded)
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+
+                            return View(model);
+                        }
+                    }
+
+                    context.Users.Update(user);
+                    await context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Profile updated successfully!";
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "User not found.");
+                }
+            }
+            else
+            {
+                foreach (var state in ModelState)
+                {
+                    foreach (var error in state.Value.Errors)
+                    {
+                        Console.WriteLine($"Field: {state.Key}, Error: {error.ErrorMessage}");
+                    }
+                }
+            }
+
+            return View(model);
+        }
+
+
     }
 }

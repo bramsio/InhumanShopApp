@@ -1,0 +1,42 @@
+﻿@using InhumanShopApp.Infrastructure.Data.Models;
+@model ProfileViewModel
+
+@{
+    ViewData["Title"] = "Edit Your Profile";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="account-container">
+    <div class="account-box">
+        <h2>Edit Your Profile</h2>
+
+        @using (Html.BeginForm("UpdateProfile", "Account", FormMethod.Post))
+        {
+            <div class="mb-3">
+                <label for="FullName" class="form-label">Name</label>
+                <input type="text" id="FullName" name="Name" class="form-control" value="@Model.Name" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="Email" class="form-label">Email</label>
+                <input type="email" id="Email" name="Email" class="form-control" value="@Model.Email" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="NewPassword" class="form-label">New Password (optional)</label>
+                <input type="password" id="NewPassword" name="NewPassword" class="form-control" value="" />
+            </div>
+
+            <!-- Скрито поле за ID-то -->
+            <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+
+            <button type="submit" class="btn">Save Changes</button>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+}
