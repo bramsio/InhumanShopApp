@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using static InhumanShopApp.Infrastructure.Constants.ValidationConstants;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -12,14 +13,14 @@ namespace InhumanShopApp.Infrastructure.Data.Models
     {
         public string Id { get; set; }
 
-        [Required(ErrorMessage = "Name is required.")]
+        [Required(ErrorMessage = requireNameMessage)]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Email is required.")]
+        [Required(ErrorMessage = requireEmailMessage)]
         [EmailAddress]
         public string Email { get; set; }
 
-        [StringLength(40, MinimumLength = 8, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.")]
+        [StringLength(passwordMaxLength, MinimumLength = passwordMinLength, ErrorMessage = passwordLengthErrorMessage)]
         [DataType(DataType.Password)]
         public string NewPassword { get; set; } 
     }

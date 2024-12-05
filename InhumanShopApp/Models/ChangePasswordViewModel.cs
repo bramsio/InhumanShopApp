@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using static InhumanShopApp.Infrastructure.Constants.ValidationConstants;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,20 +10,20 @@ namespace InhumanShopApp.Infrastructure.Data.Models
 {
     public class ChangePasswordViewModel
     {
-        [Required(ErrorMessage = "Email is required.")]
+        [Required(ErrorMessage = requireEmailMessage)]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Password is required.")]
-        [StringLength(40, MinimumLength = 8, ErrorMessage = "The {0} must be at {2} and at max {1} characters long.")]
+        [Required(ErrorMessage = requirePasswordMessage)]
+        [StringLength(passwordMaxLength, MinimumLength = passwordMinLength, ErrorMessage = passwordLengthErrorMessage)]
         [DataType(DataType.Password)]
         [Display(Name = "New Password")]
-        [Compare("ConfirmNewPassword", ErrorMessage = "Password does not match.")]
         public string NewPassword { get; set; }
 
-        [Required(ErrorMessage = "Confirm Password is required.")]
+        [Required(ErrorMessage = requireConfirmPasswordMessage)]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm New Password")]
+        [Compare("NewPassword", ErrorMessage = notMatchingPasswordsErrorMessage)]
         public string ConfirmNewPassword { get; set; }
     }
 }
