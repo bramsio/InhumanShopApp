@@ -10,7 +10,6 @@
     </div>
 
     <script>
-        // Скриваме съобщението след 5 секунди
         setTimeout(function () {
             document.querySelector('.alert').style.display = 'none';
         }, 5000);
@@ -18,7 +17,26 @@
 }
 
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <h1>Inhuman Shop</h1>
+    <div class="categories">
+        <div class="category">
+            <div class="cub">
+                <h3>Clothing</h3>
+                @* <a asp-controller="Product" asp-action="nz" class="text-decoration-none">Register</a> *@
+            </div>
+        </div>
+        <div class="category">
+            <div class="cub">
+                <h3>Toys</h3>
+                @* <a asp-controller="Product" asp-action="nz" class="text-decoration-none">Register</a> *@
+            </div>
+        </div>
+        <div class="category">
+            <div class="cub">
+                <h3>Medications</h3>
+                @* <a asp-controller="Product" asp-action="nz" class="text-decoration-none">Register</a> *@
+            </div>
+        </div>
+    </div>
 </div>

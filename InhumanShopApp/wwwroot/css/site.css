@@ -8,15 +8,51 @@ html {
     }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+h1 {
+    font-size: 80px;
+    color: white;
+    text-align: center;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-image: url('/images/BackgroundPhoto.png');
+    background-size: cover;
+    background-position: center;
 }
 
-body {
-    margin-bottom: 60px;
+.cub{
+    height: 200px;
+    width: 200px;
+    transform: rotate(-45deg);
 }
+
+.categories {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15%;
+    margin-top: 20%;
+}
+
+.category {
+    background-image: url('/images/Bone.jpg');
+    transform: rotate(45deg);
+    background-size: cover;
+    background-position: center;
+    color: black;
+}
+
+
+.category h3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    color: #000;
+}
+
