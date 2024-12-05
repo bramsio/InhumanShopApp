@@ -32,7 +32,16 @@ namespace InhumanShopApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
+                // Check if the email exists in the database
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "This email is not registered.");
+                    return View(model);
+                }
+
+                // Check if the password is correct
+                var result = await signInManager.PasswordSignInAsync(user, model.Password, true, false);
 
                 if (result.Succeeded)
                 {
@@ -40,10 +49,11 @@ namespace InhumanShopApp.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Email or password is incorrect.");
+                    ModelState.AddModelError("", "Incorrect password.");
                     return View(model);
                 }
             }
+
             return View(model);
         }
 
