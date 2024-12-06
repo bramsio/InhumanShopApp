@@ -3,18 +3,20 @@
     var successMessage = TempData["SuccessMessage"] as string;
 }
 
-@if (!string.IsNullOrEmpty(successMessage))
-{
-    <div class="alert alert-success" role="alert">
-        @successMessage
-    </div>
+<div class="message">
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success" role="alert">
+            @successMessage
+        </div>
 
-    <script>
-        setTimeout(function () {
-            document.querySelector('.alert').style.display = 'none';
-        }, 5000);
-    </script>
-}
+        <script>
+            setTimeout(function () {
+                document.querySelector('.alert').style.display = 'none';
+            }, 5000);
+        </script>
+    }
+</div>
 
 
 <div class="container">
@@ -22,20 +24,17 @@
     <div class="categories">
         <div class="category">
             <div class="cub">
-                <h3>Clothing</h3>
-                @* <a asp-controller="Product" asp-action="nz" class="text-decoration-none">Register</a> *@
+                <a asp-controller="Product" asp-action="nz" class="categoryLink">Clothing</a>
             </div>
         </div>
         <div class="category">
             <div class="cub">
-                <h3>Toys</h3>
-                @* <a asp-controller="Product" asp-action="nz" class="text-decoration-none">Register</a> *@
+                <a asp-controller="Product" asp-action="nz" class="categoryLink">Toys</a>
             </div>
         </div>
         <div class="category">
             <div class="cub">
-                <h3>Medications</h3>
-                @* <a asp-controller="Product" asp-action="nz" class="text-decoration-none">Register</a> *@
+                <a asp-controller="Product" asp-action="nz" class="categoryLink">Medications</a>
             </div>
         </div>
     </div>
