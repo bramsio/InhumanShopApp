@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InhumanShopApp.Infrastructure.Constants
 {
-    public class ValidationConstants
+    public static class ValidationConstants
     {
         public const string requireEmailMessage = "Email is required.";
         public const string requirePasswordMessage = "Password is required.";
@@ -17,5 +17,14 @@ namespace InhumanShopApp.Infrastructure.Constants
 
         public const int passwordMaxLength = 40;
         public const int passwordMinLength = 8;
+
+    }
+    public static class PostConstants
+    {
+        public const int NameMaxLength = 50;
+        public const int NameMinLength = 5;
+
+        public const int DescriptionMaxLength = 1500;
+        public const int DescriptionMinLength = 30;
     }
 }
