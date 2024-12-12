@@ -1,7 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using static InhumanShopApp.Infrastructure.Constants.ProductConstants;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static InhumanShopApp.Infrastructure.Constants.PostConstants;
 
 namespace InhumanShopApp.Infrastructure.Data.Models
 {
@@ -12,33 +16,29 @@ namespace InhumanShopApp.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(productNameMaxLength)]
+        [MaxLength(NameMaxLength)]
         [Comment("Product Name")]
         public string Name { get; set; } = string.Empty;
 
         [Required]
         [Comment("Product count")]
-        public int Count { get; set; } 
+        public int Count { get; set; } = 0;
 
         [Required]
         [Comment("Product Price")]
         public decimal Price { get; set; }
 
-
         [Required]
-        public int CategoryId { get; set; }
-
-        [Required]
-        [ForeignKey("CategoryId")]
         [Comment("Product Category")]
-        public Category Category { get; set; } = null!;
+        public string Category { get; set; } //Clothes Toys Medications
 
         [Required]
-        [MaxLength(productDescriptionMaxLength)]
+        [MaxLength(DescriptionMaxLength)]
         [Comment("Product description")]
-        public string Description { get; set; } = string.Empty;
+        public string  Description { get; set; }
 
+        [Required]
         [Comment("Product image url")]
-        public string ImageUrl { get; set; } = string.Empty;
+        public string ImageUrl { get; set; }
     }
 }

@@ -21,6 +21,7 @@
 //            new Product() { Id = 3, Name = "Bird Swing", Count = 5, Price = 12.49M, Category ="Toys",Description =       "Swing toy for small birds.", ImageUrl = "/images/bird_swing.jpg" },
 //            new Product() { Id = 4, Name = "Hamster Tunnel", Count = 5, Price = 18.75M, Category = "Toys",  Description =    "Plastic tunnel for hamsters.", ImageUrl = "/images/hamster_tunnel.jpg" },
 //            new Product() { Id = 5, Name = "Interactive Feeder", Count = 5, Price = 29.99M, Category ="Toys",      Description = "Puzzle feeder to engage pets.", ImageUrl = "imagesinteractive_feeder.jpg" },
+//        private Product[] initialProducts = new Product[]
         
 //            //// Clothes
 //            //new Product() { Id = 6, Name = "Dog Sweater", Count = 5, Price = 27.99M, CategoryId = 1,  Description =    "Warm sweater for small dogs.", ImageUrl = "/images/dog_sweater.jpg" },
@@ -36,6 +37,7 @@
 //            new Product() { Id = 14, Name = "Ear Drops", Count = 5, Price = 18.50M, Category = "Medicines",     Description =    "Ear infection treatment drops.", ImageUrl = "/images/ear_drops.jpg" },
 //            new Product() { Id = 15, Name = "Joint Health Supplement", Count = 5, Price = 32.99M, Category =    "Medicines",    Description = "Supplement for joint health.", ImageUrl = "imagesjoint_supplement.jpg" }
 //        };
+
 
 //        public void Configure(EntityTypeBuilder<Product> builder)
 //        {
