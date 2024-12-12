@@ -8,15 +8,83 @@ html {
     }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+h1 {
+    font-size: 80px;
+    color: white;
+    text-align: center;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-image: url('/images/BackgroundPhoto.png');
+    background-size: cover;
+    background-position: center;
 }
 
-body {
-    margin-bottom: 60px;
+.container {
+    position: absolute;
+    top: 20%;
+    left: 5%;
+}
+
+.categories {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15%;
+    margin-top: 10%;
+}
+
+.category {
+    background-image: url('/images/Bone.jpg');
+    transform: rotate(45deg);
+    background-size: cover;
+    background-position: center;
+    color: black;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.category h3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    color: #000;
+    }
+
+.cub {
+    height: 200px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(-45deg);
+}
+
+.categoryLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+}
+
+.categoryLink:hover {
+    color: #28a745;
+}
+
+.Layout-container {
+    margin-left: 10px;
+    padding: 10px;
+}
+
+.message {
+    margin: -5%
 }
