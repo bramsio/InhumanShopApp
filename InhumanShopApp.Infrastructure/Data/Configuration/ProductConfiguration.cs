@@ -22,12 +22,12 @@ namespace InhumanShopApp.Infrastructure.Data.Configuration
             new Product() { Id = 4, Name = "Hamster Tunnel", Count = 5, Price = 18.75M, Category = "Toys",  Description =    "Plastic tunnel for hamsters.", ImageUrl = "/images/hamster_tunnel.jpg" },
             new Product() { Id = 5, Name = "Interactive Feeder", Count = 5, Price = 29.99M, Category ="Toys",      Description = "Puzzle feeder to engage pets.", ImageUrl = "imagesinteractive_feeder.jpg" },
         
-            // Clothes
-            new Product() { Id = 6, Name = "Dog Sweater", Count = 5, Price = 27.99M, Category = "Clothes",  Description =    "Warm sweater for small dogs.", ImageUrl = "/images/dog_sweater.jpg" },
-            new Product() { Id = 7, Name = "Raincoat for Dogs", Count = 5, Price = 34.50M, Category="Clothes",         Description = "Waterproof raincoat for pets.", ImageUrl = "imagesdog_raincoat.jpg" },
-            new Product() { Id = 8, Name = "Cat Costume", Count = 5, Price = 22.99M, Category = "Clothes",  Description =    "Adorable costume for cats.", ImageUrl = "/images/cat_costume.jpg" },
-            new Product() { Id = 9, Name = "Boots for Dogs", Count = 5, Price = 19.49M, Category = "Clothes",    Description    = "Protective boots for dogs.", ImageUrl = "/images/dog_boots.jpg" },
-            new Product() { Id = 10, Name = "Pet Scarf", Count = 5, Price = 12.99M, Category ="Clothes",Description    =     "Stylish scarf for pets.", ImageUrl = "/images/pet_scarf.jpg" },
+            //// Clothes
+            //new Product() { Id = 6, Name = "Dog Sweater", Count = 5, Price = 27.99M, CategoryId = 1,  Description =    "Warm sweater for small dogs.", ImageUrl = "/images/dog_sweater.jpg" },
+            //new Product() { Id = 7, Name = "Raincoat for Dogs", Count = 5, Price = 34.50M, CategoryId = 1,         Description = "Waterproof raincoat for pets.", ImageUrl = "imagesdog_raincoat.jpg" },
+            //new Product() { Id = 8, Name = "Cat Costume", Count = 5, Price = 22.99M, CategoryId = 1,  Description =    "Adorable costume for cats.", ImageUrl = "/images/cat_costume.jpg" },
+            //new Product() { Id = 9, Name = "Boots for Dogs", Count = 5, Price = 19.49M, CategoryId = 1,    Description    = "Protective boots for dogs.", ImageUrl = "/images/dog_boots.jpg" },
+            //new Product() { Id = 10, Name = "Pet Scarf", Count = 5, Price = 12.99M, CategoryId = 1,Description    =     "Stylish scarf for pets.", ImageUrl = "/images/pet_scarf.jpg" },
         
             // Medicines
             new Product() { Id = 11, Name = "Flea Treatment", Count = 5, Price = 45.99M, Category="Medicines",         Description = "Effective flea treatment for pets.", ImageUrl = "/images flea_treatment.jpg" },
