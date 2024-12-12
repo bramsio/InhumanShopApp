@@ -1,4 +1,5 @@
-﻿@using InhumanShopApp.Infrastructure.Data.Models
+﻿@using InhumanShopApp.Infrastructure.Data.Models;
+@using InhumanShopApp.Models.Account
 @model ProfileViewModel
 
 @{
@@ -17,7 +18,7 @@
         </div>
 
         <div class="text-center mt-3">
-            <a href="@Url.Action("ConfirmationForEdit", "Account")" class="btn">Edit Profile</a>
+            <a href="@Url.Action("ConfirmPassword", "Account")" class="btn">Edit Profile</a>
         </div>
         <div class="text-center">
             <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back</a>

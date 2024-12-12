@@ -1,13 +1,14 @@
-﻿@{
+﻿﻿@{
     ViewData["Title"] = "Home Page";
     var successMessage = TempData["SuccessMessage"] as string;
 }
 
-@if (!string.IsNullOrEmpty(successMessage))
-{
-    <div class="alert alert-success" role="alert">
-        @successMessage
-    </div>
+<div class="message">
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success" role="alert">
+            @successMessage
+        </div>
 
         <script>
             setTimeout(function () {
@@ -15,31 +16,6 @@
             }, 5000);
         </script>
     }
-<<<<<<< HEAD
-</div>
-
-
-<div class="container">
-    <h1>Inhuman Shop</h1>
-    <div class="categories">
-        <div class="category">
-            <div class="cub">
-                <a asp-controller="Product" asp-action="nz" class="categoryLink">Clothing</a>
-            </div>
-        </div>
-        <div class="category">
-            <div class="cub">
-                <a asp-controller="Product" asp-action="nz" class="categoryLink">Toys</a>
-            </div>
-        </div>
-        <div class="category">
-            <div class="cub">
-                <a asp-controller="Product" asp-action="nz" class="categoryLink">Medications</a>
-            </div>
-        </div>
-    </div>
-=======
->>>>>>> 85a497411bce044414dbc3fcef25b77a347274fa
 </div>
 
 
@@ -63,3 +39,4 @@
         </div>
     </div>
 </div>
+
