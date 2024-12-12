@@ -1,37 +1,39 @@
 using InhumanShopApp.Data;
+using InhumanShopApp.Infrastructure.Data.Models;
 using InhumanShopApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(connectionString));
-builder.Services.AddDbContext<ForumDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddIdentity<Users, IdentityRole>(options =>
+builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequiredLength = 8;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireLowercase = false;
     options.User.RequireUniqueEmail = true;
     options.SignIn.RequireConfirmedAccount = false;
     options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
 })
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseMigrationsEndPoint();
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -45,6 +47,40 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+
+    string[] roles = { "User", "Veterinarian", "Administrator" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+
+    const string adminEmail = "admin@zooshop.com"; 
+    const string adminPassword = "Admin123!"; 
+
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+    if (adminUser == null)
+    {
+        var user = new User { UserName = adminEmail, Email = adminEmail };
+        var result = await userManager.CreateAsync(user, adminPassword);
+
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, "Administrator");
+        }
+    }
+}
+
 
 app.MapControllerRoute(
     name: "default",
