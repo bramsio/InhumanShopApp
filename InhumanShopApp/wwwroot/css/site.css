@@ -56,18 +56,18 @@ html, body {
     transform: translate(-50%, -50%);
     font-size: 20px;
     color: #000;
-}
+ }
 
 .cub {
     height: 200px;
     width: 200px;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
     transform: rotate(-45deg);
 }
 
-.categoryLink{
+.categoryLink {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -77,14 +77,15 @@ html, body {
 }
 
 .categoryLink:hover {
-    color: #28a745; 
+    color: #28a745;
 }
 
-.Layout-container{
+.Layout-container {
+    color: #28a745; 
     margin-left: 10px;
     padding: 10px;
 }
 
-.message{
-    margin:-5%
+.message {
+    margin: -5%
 }
