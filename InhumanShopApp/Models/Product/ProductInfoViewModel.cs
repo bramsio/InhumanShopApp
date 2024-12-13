@@ -7,7 +7,7 @@ using static InhumanShopApp.Infrastructure.Constants.ErrorMessages;
 using static InhumanShopApp.Infrastructure.Constants.ProductConstants;
 namespace InhumanShopApp.Models.Product
 {
-    public class ProductViewModel
+    public class ProductInfoViewModel
     {
         [Key]
         [Comment("Product Identifier")]
