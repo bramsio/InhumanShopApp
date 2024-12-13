@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using static InhumanShopApp.Infrastructure.Constants.CategoryConstants;
 
 namespace InhumanShopApp.Infrastructure.Data.Models
 {
-    internal class Category
+    public class Category
     {
+        [Key]
+        [Comment("Category Identifier")]
+        public int Id { get; set; }
+
+        [Required]
+        [MaxLength(categoryNameMaxLength)]
+        [Comment("Category name")]
+        public string Name { get; set; } = string.Empty;
+
+        public IEnumerable<Product> Products { get; set; } = new List<Product>();
     }
 }
