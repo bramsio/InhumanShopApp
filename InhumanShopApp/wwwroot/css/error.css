@@ -1,0 +1,58 @@
+﻿
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+h1{
+    font-size: 70px;
+    color: white;
+    text-align: center;
+}
+h2 {
+    font-size: 45px;
+    color: white;
+    text-align: center;
+}
+
+html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-image: url('/images/Background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.error-container {
+    text-align: center;
+}
+
+.error-icon img {
+    width: 320px;
+    height: auto;
+}
+
+a {
+    font-size: 12px;
+    display: inline-block;
+    padding: 10px 25px;
+    font-size: 1rem;
+    color: #fff;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+a:hover {
+    text-decoration: underline;
+    color: black;
+}

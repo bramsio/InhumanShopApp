@@ -1,0 +1,22 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/error.css" />
+}
+
+<div class="error 500">
+    <h1>Oops! Something went wrong.</h1>
+    <h2>An error occurred on the server. Please try again later or contact us.</h2>
+    <div class="error-container">
+        <div class="error-icon">
+            <img src="~/images/Error/SadDogImage.jpg" alt="Error Icon">
+        </div>
+        <div class="action-button">
+            <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Go to Home page</a>
+        </div>
+    </div>
+</div>
+

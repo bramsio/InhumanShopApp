@@ -39,6 +39,6 @@ namespace InhumanShopApp.Infrastructure.Data.Models
         public string Description { get; set; } = string.Empty;
 
         [Comment("Product image url")]
-        public string ImageUrl { get; set; } = string.Empty;
+        public string? ImageUrl { get; set; } 
     }
 }

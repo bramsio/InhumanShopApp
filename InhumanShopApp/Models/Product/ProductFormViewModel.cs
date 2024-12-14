@@ -1,36 +1,30 @@
-﻿using Humanizer;
-using InhumanShopApp.Infrastructure.Data.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using static InhumanShopApp.Infrastructure.Constants.ErrorMessages;
 using static InhumanShopApp.Infrastructure.Constants.ProductConstants;
+
 namespace InhumanShopApp.Models.Product
 {
-    public class ProductInfoViewModel
+    public class ProductFormViewModel
     {
-        [Key]
-        [Comment("Product Identifier")]
-        public int Id { get; set; }
-
         [Required(ErrorMessage = requireFieldMessage)]
         [StringLength(productNameMaxLength,
             MinimumLength = productNameMinLength,
             ErrorMessage = stringLengthErrorMessage)]
-        [Comment("Product Name")]
+        [Comment("Product name")]
         public string Name { get; set; } = string.Empty;
+
 
         [Required(ErrorMessage = requireFieldMessage)]
         [Comment("Product count")]
         public int Count { get; set; }
 
         [Required(ErrorMessage = requireFieldMessage)]
-        [Comment("Product Price")]
+        [Comment("Producr price")]
         public decimal Price { get; set; }
 
         [Required(ErrorMessage = requireFieldMessage)]
-        [Comment("Product Category")]
-        public Category Category { get; set; } = null!;
+        public int CategoryId { get; set; }
 
         [Required(ErrorMessage = requireFieldMessage)]
         [StringLength(productDescriptionMaxLength,
@@ -38,8 +32,7 @@ namespace InhumanShopApp.Models.Product
             ErrorMessage = stringLengthErrorMessage)]
         [Comment("Product description")]
         public string Description { get; set; } = string.Empty;
-
-        [Comment("Product image url")]
-        public string? ImageUrl { get; set; } 
+        public string? ImageUrl { get; set; }
+        public IEnumerable<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
     }
 }

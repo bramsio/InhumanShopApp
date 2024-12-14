@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/error.css" />
+}
+
+<div class="error 404">
+    <h1>Sorry!</h1>
+    <h2>The page was not found.</h2>
+    <div class="error-container">
+        <div class="error-icon">
+            <img src="~/images/Error/SadDogImage.jpg" alt="Error Icon">
+        </div>
+        <div class="action-button">
+            <a href="javascript:void(0);" onclick="goBack();" class="text-decoration-none mt-3">Back</a>
+        </div>
+    </div>
+</div>
+
+<script src="/js/error-navigation.js" defer></script>
