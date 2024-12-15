@@ -2,9 +2,8 @@
 
 namespace InhumanShopApp.Controllers
 {
-    public class CategoryController : Controller
+    public class VeterinarianController : Controller
     {
-        //CRUD operations for categories 
         public IActionResult Index()
         {
             return View();

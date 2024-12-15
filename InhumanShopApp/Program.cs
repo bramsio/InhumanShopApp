@@ -25,6 +25,9 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 
 builder.Services.AddControllersWithViews();
 
+//// Добавяне на SignalR като услуга
+//builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 
@@ -81,6 +84,12 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
+
+//// Конфигурация на маршрута за SignalR
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapHub<ChatHub>("/chatHub");
+//});
 
 
 app.MapControllerRoute(
