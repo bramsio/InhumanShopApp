@@ -1,0 +1,93 @@
+﻿h2 {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+html, body {
+    overflow: visible;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-image: url('/images/BackgroundPhoto.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.card {
+    background-color: rgba(169, 169, 169, 0.9); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
+    border-radius: 8px;
+    transition: transform 0.3s ease; 
+}
+
+.card:hover {
+    transform: translateY(-5px); 
+}
+
+.card-img-top {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    color: black;
+    margin-bottom: 10px;
+}
+
+.btn {
+    background-color: white; 
+    color: black; 
+    border: 1px solid #333; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.btn:hover {
+    background-color: rgba(169, 169, 169, 0.9);
+    color: black; 
+}
+
+.row {
+    margin: 0 -15px;
+}
+
+.col-md-3 {
+    padding: 15px;
+}
+
+.admin-actions .btn {
+    font-weight: bold;
+}
+
+.mb-3 {
+    margin-bottom: 1rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+}

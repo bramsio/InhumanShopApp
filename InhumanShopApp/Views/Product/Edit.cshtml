@@ -1,7 +1,7 @@
 ﻿@using InhumanShopApp.Models.Product
-@model ProductFormViewModel
+@model ProductEditViewModel
 @{
-    ViewData["Title"] = "Add product";
+    ViewData["Title"] = "Edit Product";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
@@ -11,18 +11,18 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="Add" method="post">
+        <form asp-action="Edit" method="post">
             <div class="row">
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.Name" class="form-label-add-edit">Product Name</label>
-                    <input asp-for="@Model.Name" class="form-control" aria-required="true" />
+                    <input asp-for="@Model.Name" class="form-control" />
                     <span asp-validation-for="@Model.Name" class="text-danger"></span>
                 </div>
 
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.CategoryId" class="form-label-add-edit">Select Category</label>
-                    <select asp-for="@Model.CategoryId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
-                        <option value="">...</option>
+                    <select asp-for="@Model.CategoryId" class="form-control" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
+                        <option value="">Select Terrain...</option>
                     </select>
                     <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
                 </div>
@@ -30,13 +30,13 @@
 
             <div class="mb-2">
                 <label asp-for="@Model.Description" class="form-label-add-edit">Description</label>
-                <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="2"></textarea>
+                <textarea asp-for="@Model.Description" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="@Model.Description" class="text-danger"></span>
             </div>
 
             <div class="mb-2">
                 <label asp-for="@Model.ImageUrl" class="form-label-add-edit">Image URL</label>
-                <input asp-for="@Model.ImageUrl" class="form-control" aria-required="false" placeholder="Enter image URL (optional)" />
+                <input asp-for="@Model.ImageUrl" class="form-control" placeholder="Enter image URL (optional)" />
                 <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
             </div>
 
@@ -50,22 +50,14 @@
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.Price" class="form-label-add-edit">Product Price</label>
                     <input asp-for="@Model.Price" class="form-control" aria-required="true" />
-                    <span asp-validation-for="@Model.Price" class="text-danger"></span>
+                    <span asp-validation-for="@Model.Count" class="text-danger"></span>
                 </div>
             </div>
-
             <div class="mb-2">
-                <button class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
+                <button class="btn btn-warning w-100">
                     <i class="fas fa-save"></i> Save
                 </button>
             </div>
         </form>
     </div>
 </div>
-
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
-    }
-}

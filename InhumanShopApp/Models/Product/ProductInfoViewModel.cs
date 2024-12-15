@@ -30,7 +30,7 @@ namespace InhumanShopApp.Models.Product
 
         [Required(ErrorMessage = requireFieldMessage)]
         [Comment("Product Category")]
-        public Category Category { get; set; } = null!;
+        public string Category { get; set; } = null!;
 
         [Required(ErrorMessage = requireFieldMessage)]
         [StringLength(productDescriptionMaxLength,

@@ -10,11 +10,13 @@ html {
 
 h1 {
     font-size: 80px;
+    font-weight: bolder;
     color: white;
     text-align: center;
 }
 
 html, body {
+    overflow: hidden;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -26,7 +28,7 @@ html, body {
 
 .container {
     position: absolute;
-    top: 20%;
+    top: 18%;
     left: 5%;
 }
 
@@ -35,8 +37,8 @@ html, body {
     justify-content: center;
     align-items: center;
     gap: 15%;
-    margin-top: 10%;
 }
+
 
 .category {
     background-image: url('/images/Bone.jpg');
@@ -68,24 +70,18 @@ html, body {
 }
 
 .categoryLink {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    color: black;
-    font-size: 16px;
+    text-decoration: none; 
+    color: black; 
+    font-weight: bold; 
 }
 
 .categoryLink:hover {
-    color: #28a745;
-}
-
-.Layout-container {
-    color: #28a745; 
-    margin-left: 10px;
-    padding: 10px;
+    color: green; 
+    text-decoration: none; 
 }
 
 .message {
     margin: -5%
 }
+
+
