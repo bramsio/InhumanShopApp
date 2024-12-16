@@ -22,7 +22,7 @@
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.CategoryId" class="form-label-add-edit">Select Category</label>
                     <select asp-for="@Model.CategoryId" class="form-control" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
-                        <option value="">Select Terrain...</option>
+                        <option value="">Select Categoty...</option>
                     </select>
                     <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
                 </div>
@@ -61,3 +61,7 @@
         </form>
     </div>
 </div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/product.css" />
+}

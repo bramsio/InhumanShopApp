@@ -13,6 +13,9 @@ namespace InhumanShopApp.Infrastructure.Constants
         public const string notMatchingPasswordsErrorMessage = "Password does not match.";
         public const string invalidEmailMessage = "Invalid email format.";
         public const string invalidPhoneMessage = "Invalid phone number format.";
+
+        public const string productCountErrorMessage = "Product count must be greater than zero.";
+        public const string productPriceErrorMessage = "Product price must be greater than zero.";
     }
 
     public static class UserConstants

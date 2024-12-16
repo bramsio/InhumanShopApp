@@ -16,7 +16,9 @@ namespace InhumanShopApp.Models.Product
 
 
         [Required(ErrorMessage = requireFieldMessage)]
+        
         [Comment("Product count")]
+        [Range(1, int.MaxValue, ErrorMessage = productCountErrorMessage)]
         public int Count { get; set; }
 
         [Required(ErrorMessage = requireFieldMessage)]
@@ -24,6 +26,7 @@ namespace InhumanShopApp.Models.Product
         public decimal Price { get; set; }
 
         [Required(ErrorMessage = requireFieldMessage)]
+        [Range(0.01, double.MaxValue, ErrorMessage = productPriceErrorMessage)]
         public int CategoryId { get; set; }
 
         [Required(ErrorMessage = requireFieldMessage)]

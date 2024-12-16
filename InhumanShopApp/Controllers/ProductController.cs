@@ -223,7 +223,7 @@ namespace InhumanShopApp.Controllers
         
         private async Task<IEnumerable<CategoryViewModel>> GetCategories()
         {
-            return await context.Products
+            return await context.Categories
                 .AsNoTracking()
                 .Select(c => new CategoryViewModel
                 {
