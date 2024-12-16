@@ -7,10 +7,6 @@ namespace InhumanShopApp.Models.Account
     public class ChangePasswordViewModel
     {
         [Required(ErrorMessage = requireFieldMessage)]
-        [EmailAddress]
-        public string Email { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = requireFieldMessage)]
         [StringLength(passwordMaxLength, MinimumLength = passwordMinLength, ErrorMessage = stringLengthErrorMessage)]
         [DataType(DataType.Password)]
         [Display(Name = "New Password")]

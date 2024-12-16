@@ -148,14 +148,18 @@ namespace InhumanShopApp.Controllers
         //Confirm password
 
         [HttpGet]
-        public IActionResult ConfirmPassword()
+        public IActionResult ConfirmPassword(int mode)
         {
+            // Съхраняваме "mode" за следващия POST
+            ViewBag.Mode = mode;
+
+            Console.WriteLine($"Mode received: {mode}");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmPassword(string password)
+        public async Task<IActionResult> ConfirmPassword(string password, int mode)
         {
             var user = await userManager.GetUserAsync(User);
 
@@ -165,22 +169,30 @@ namespace InhumanShopApp.Controllers
 
                 if (passwordValid)
                 {
-                    var model = new EditViewModel
+                    if (mode == 1) // Edit Profile
                     {
-                        Id = user.Id,
-                        Name = user.Name,
-                        Email = user.Email,
-                    };
-                    return View("Edit", model);
+                        var model = new EditViewModel
+                        {
+                            Id = user.Id,
+                            Name = user.Name,
+                            Email = user.Email,
+                        };
+                        return View("Edit", model);
+                    }
+                    else if (mode == 2) // Change Password
+                    {
+                        return View("ChangePassword");
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid password");
+                    ModelState.AddModelError("", "Invalid password.");
                 }
             }
 
             return View();
         }
+
 
 
 
@@ -241,58 +253,57 @@ namespace InhumanShopApp.Controllers
 
 
 
-        //За change password логика за изпращане на имейл за да се потвърди
-
 
         //Change password
 
-        //[HttpGet]
-        //public IActionResult ChangePassword(string username)
-        //{
-        //    if (string.IsNullOrEmpty(username))
-        //    {
-        //        return RedirectToAction("VerifyEmail", "Account");
-        //    }
-        //    return View(new ChangePasswordViewModel { Email = username });
-        //}
+        [HttpGet]
+        public IActionResult ChangePassword(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return RedirectToAction("VerifyEmail", "Account");
+            }
+            return View();
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = await userManager.FindByNameAsync(model.Email);
-        //        if (user != null)
-        //        {
-        //            var result = await userManager.RemovePasswordAsync(user);
-        //            if (result.Succeeded)
-        //            {
-        //                result = await userManager.AddPasswordAsync(user, model.NewPassword);
-        //                return RedirectToAction("Login", "Account");
-        //            }
-        //            else
-        //            {
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByNameAsync(User.Identity.Name);
 
-        //                foreach (var error in result.Errors)
-        //                {
-        //                    ModelState.AddModelError("", error.Description);
-        //                }
+                if (user != null)
+                {
+                    var result = await userManager.RemovePasswordAsync(user);
+                    if (result.Succeeded)
+                    {
+                        result = await userManager.AddPasswordAsync(user, model.NewPassword);
+                        return RedirectToAction("Login", "Account");
+                    }
+                    else
+                    {
 
-        //                return View(model);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError("", "Email not found!");
-        //            return View(model);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        ModelState.AddModelError("", "Something went wrong. try again.");
-        //        return View(model);
-        //    }
-        //}
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Email not found!");
+                    return View(model);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Something went wrong. try again.");
+                return View(model);
+            }
+        }
 
 
 

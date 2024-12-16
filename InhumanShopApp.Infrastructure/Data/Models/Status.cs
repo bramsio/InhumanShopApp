@@ -11,9 +11,9 @@ namespace InhumanShopApp.Infrastructure.Data.Models
         [Comment("Status identifier")]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = requireFieldMessage)]
+        [Required]
         [MaxLength(statusNameMaxLength)]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         // Статус на поръчката (напр. "Pending", "Completed", "Cancelled")
     }
 }

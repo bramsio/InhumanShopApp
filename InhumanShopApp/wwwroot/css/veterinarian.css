@@ -1,0 +1,32 @@
+﻿.transparent-table {
+    background-color: rgba(255, 255, 255, 0.8); 
+    border-collapse: collapse; 
+    width: 100%;
+}
+
+    .transparent-table th, .transparent-table td {
+        border: 1px solid #ddd; 
+        padding: 8px;
+        text-align: left; 
+    }
+
+    .transparent-table th {
+        background-color: #f4f4f4; 
+        font-weight: bold;
+    }
+
+    .transparent-table tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+.btn {
+    background-color: white;
+    color: black;
+    border: 1px solid #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    .btn:hover {
+        background-color: rgba(169, 169, 169, 0.9);
+        color: black;
+    }

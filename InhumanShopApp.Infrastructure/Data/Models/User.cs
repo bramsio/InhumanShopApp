@@ -8,9 +8,9 @@ namespace InhumanShopApp.Infrastructure.Data.Models
 {
     public class User : IdentityUser
     {
-        [Required(ErrorMessage = requireFieldMessage)]
+        [Required]
         [MaxLength(userNameMaxLength)]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public ICollection<Chat> Chats { get; set; } = new List<Chat>();
     }
 }

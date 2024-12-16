@@ -16,10 +16,12 @@
             <p><strong>Email:</strong> @Model.Email</p>
             <p><strong>Username:</strong> @Model.Email</p>
         </div>
-
         <div class="text-center mt-3">
-            <a href="@Url.Action("ConfirmPassword", "Account")" class="btn">Edit Profile</a>
+            <a href="@Url.Action("ConfirmPassword", "Account", new { mode = 1 })" class="btn">Edit Profile</a>
+            <a href="@Url.Action("ConfirmPassword", "Account", new { mode = 2 })" class="btn">Change Password</a>
+
         </div>
+ 
         <div class="text-center">
             <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back</a>
         </div>

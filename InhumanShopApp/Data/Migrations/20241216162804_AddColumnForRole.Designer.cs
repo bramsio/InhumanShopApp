@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InhumanShopApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241215143629_AddProductSeedData")]
-    partial class AddProductSeedData
+    [Migration("20241216162804_AddColumnForRole")]
+    partial class AddColumnForRole
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -80,9 +80,8 @@ namespace InhumanShopApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("IsFromUser")
-                        .HasColumnType("bit")
-                        .HasComment("What role is the sender of the message from - User or Veterinarian");
+                    b.Property<int>("IsFromUser")
+                        .HasColumnType("int");
 
                     b.Property<string>("MessageContent")
                         .IsRequired()
@@ -90,21 +89,15 @@ namespace InhumanShopApp.Data.Migrations
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<DateTime>("SentAt")
-                        .HasColumnType("datetime2")
-                        .HasComment("The time the message was sent");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("VeterinarianId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("VeterinarianId");
 
                     b.ToTable("Chats");
                 });
@@ -207,9 +200,18 @@ namespace InhumanShopApp.Data.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasComment("Product Price");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int")
+                        .HasComment("Product quanity");
+
+                    b.Property<int>("SizeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("SizeId");
 
                     b.ToTable("Products");
 
@@ -217,72 +219,169 @@ namespace InhumanShopApp.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CategoryId = 2,
-                            Count = 5,
-                            Description = "Durable chew toy for dogs.",
-                            ImageUrl = "/images/chew_toy.jpg",
-                            Name = "Chew Toy",
-                            Price = 23.43m
+                            CategoryId = 5,
+                            Count = 50,
+                            Description = "High-quality dog food for adult dogs.",
+                            ImageUrl = "images/Products/Premium_Dog_Food.jpg",
+                            Name = "Premium Dog Food",
+                            Price = 45.99m,
+                            Quantity = 1,
+                            SizeId = 3
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 2,
-                            Count = 5,
-                            Description = "Colorful ball with bell for cats.",
-                            ImageUrl = "/images/cat_ball.jpg",
-                            Name = "Cat Ball",
-                            Price = 15.99m
+                            Count = 20,
+                            Description = "Durable scratching post for cats.",
+                            ImageUrl = "images/Products/Cat_Scratching_Post.jpg",
+                            Name = "Cat Scratching Post",
+                            Price = 29.99m,
+                            Quantity = 1,
+                            SizeId = 4
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 2,
-                            Count = 5,
-                            Description = "Swing toy for small birds.",
-                            ImageUrl = "/images/bird_swing.jpg",
-                            Name = "Bird Swing",
-                            Price = 12.49m
+                            Count = 100,
+                            Description = "Rubber chew toy to keep your dog entertained.",
+                            ImageUrl = "images/Products/Dog_Chew_Toy.jpg",
+                            Name = "Dog Chew Toy",
+                            Price = 15.49m,
+                            Quantity = 1,
+                            SizeId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 4,
+                            Count = 75,
+                            Description = "Adjustable cat collar with a small bell.",
+                            ImageUrl = "images/Products/Cat_Collar_with_Bell.jpg",
+                            Name = "Cat Collar with Bell",
+                            Price = 9.99m,
+                            Quantity = 1,
+                            SizeId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 4,
+                            Count = 30,
+                            Description = "Comfortable bed for medium-sized dogs.",
+                            ImageUrl = "images/Products/Dog_And_Cat_Bed.jpg",
+                            Name = "Dog And Cat Bed",
+                            Price = 59.99m,
+                            Quantity = 1,
+                            SizeId = 3
                         },
                         new
                         {
                             Id = 6,
-                            CategoryId = 1,
-                            Count = 5,
-                            Description = "Warm sweater for small dogs.",
-                            ImageUrl = "/images/dog_sweater.jpg",
-                            Name = "Dog Sweater",
-                            Price = 27.99m
+                            CategoryId = 5,
+                            Count = 40,
+                            Description = "Cat litter with odor-neutralizing technology.",
+                            ImageUrl = "images/Products/Cat_Litter-Odor_Control.jpg",
+                            Name = "Cat Litter - Odor Control",
+                            Price = 19.99m,
+                            Quantity = 1,
+                            SizeId = 5
                         },
                         new
                         {
                             Id = 7,
-                            CategoryId = 1,
-                            Count = 5,
-                            Description = "Waterproof raincoat for pets.",
-                            ImageUrl = "/images/dog_raincoat.jpg",
-                            Name = "Raincoat for Dogs",
-                            Price = 34.50m
+                            CategoryId = 3,
+                            Count = 60,
+                            Description = "Gentle shampoo for dogs with sensitive skin.",
+                            ImageUrl = "images/Products/Dog_Shampoo-Sensitive_Skin.jpg",
+                            Name = "Dog Shampoo - Sensitive Skin",
+                            Price = 12.49m,
+                            Quantity = 1,
+                            SizeId = 1
                         },
                         new
                         {
-                            Id = 11,
-                            CategoryId = 3,
-                            Count = 5,
-                            Description = "Effective flea treatment for pets.",
-                            ImageUrl = "/images/flea_treatment.jpg",
-                            Name = "Flea Treatment",
-                            Price = 45.99m
+                            Id = 8,
+                            CategoryId = 5,
+                            Count = 200,
+                            Description = "Delicious salmon-flavored treats for cats.",
+                            ImageUrl = "images/Products/Cat_Treats-Salmon_Flavor.jpg",
+                            Name = "Cat Treats - Salmon Flavor",
+                            Price = 5.99m,
+                            Quantity = 1,
+                            SizeId = 2
                         },
                         new
                         {
-                            Id = 12,
-                            CategoryId = 3,
-                            Count = 5,
-                            Description = "Tablets for deworming cats and dogs.",
-                            ImageUrl = "/images/deworming_tablets.jpg",
-                            Name = "Deworming Tablets",
-                            Price = 28.75m
+                            Id = 9,
+                            CategoryId = 4,
+                            Count = 25,
+                            Description = "Adjustable harness for comfortable walks.",
+                            ImageUrl = "images/Products/Dog_Harness-Adjustable.jpg",
+                            Name = "Dog Harness - Adjustable",
+                            Price = 24.99m,
+                            Quantity = 1,
+                            SizeId = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 2,
+                            Count = 15,
+                            Description = "Interactive tunnel toy for cats to play and hide.",
+                            ImageUrl = "images/Products/Cat_Tunnel.jpg",
+                            Name = "Cat Tunnel",
+                            Price = 34.99m,
+                            Quantity = 1,
+                            SizeId = 4
+                        });
+                });
+
+            modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Size", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("Size Identifier");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
+                        .HasComment("Category name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sizes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "XS"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "S"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "M"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "L"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "XL"
                         });
                 });
 
@@ -362,6 +461,10 @@ namespace InhumanShopApp.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("UserType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -374,72 +477,26 @@ namespace InhumanShopApp.Data.Migrations
 
                     b.ToTable("AspNetUsers", (string)null);
 
+                    b.HasDiscriminator<string>("UserType").HasValue("User");
+
                     b.HasData(
                         new
                         {
                             Id = "7699db7d-964f-4782-8209-d76562e0fece",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8f3cb324-2cf8-4a5c-9c9d-57e904d50b67",
+                            ConcurrencyStamp = "d366199a-a2f4-486a-9925-962041095b9a",
                             Email = "admin@zooshop.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Name = "Belgin",
                             NormalizedEmail = "ADMIN@ZOOSHOP.COM",
                             NormalizedUserName = "ADMIN@ZOOSHOP.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGDVd6gRKHtIbxnDl4GhIkyHkODYF0uztg6FU6rM91k+YfOWUwVkahibIf0Mgaa0SA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGcfnO4qnpkDN30iC19WWiHihAvU/4VUrmyxJbOBfAZtC4RYi2PDVfjFDoAJD820Rw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bc5e1c86-3ec4-4910-bb6b-b68d0104749f",
+                            SecurityStamp = "d0ed4383-4fa5-4b4e-9499-f09c8d379bc4",
                             TwoFactorEnabled = false,
                             UserName = "admin@zooshop.com"
                         });
-                });
-
-            modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Veterinarian", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Veterinarian identifier");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("EmailAdress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Veterinarian email adress");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)")
-                        .HasComment("Veterinarian first name");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)")
-                        .HasComment("Veterinarian last name");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Veterinarian phone number");
-
-                    b.Property<string>("ProfileDescription")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)")
-                        .HasComment("Veterinarian profile description");
-
-                    b.Property<string>("Specialization")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("Veterinarian specialization");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Veterinarians");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -472,21 +529,21 @@ namespace InhumanShopApp.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "afd03306-b274-4b86-b760-ac4ef53b870f",
+                            ConcurrencyStamp = "6f7d54b8-5ff6-43da-b609-cb5e960f3e1d",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "22cc8a09-d5c6-4d90-9980-4269463dd7f0",
+                            ConcurrencyStamp = "78d0151c-4829-4cd0-b981-5e3da1a48a92",
                             Name = "Veterinarian",
                             NormalizedName = "VETERINARIAN"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "3cc73d94-2b53-482d-9e14-07497fc3be3b",
+                            ConcurrencyStamp = "4eb6a872-4341-4094-9df2-cdc517a6a660",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -583,6 +640,41 @@ namespace InhumanShopApp.Data.Migrations
                         {
                             UserId = "7699db7d-964f-4782-8209-d76562e0fece",
                             RoleId = "3"
+                        },
+                        new
+                        {
+                            UserId = "a1b2c3d4-1234-5678-9876-abcdefabcdef",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            UserId = "a1b2c3d4-2345-6789-9876-abcdefabcdef",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            UserId = "a1b2c3d4-3456-7890-9876-abcdefabcdef",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            UserId = "a1b2c3d4-4567-8901-9876-abcdefabcdef",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            UserId = "a1b2c3d4-5678-9012-9876-abcdefabcdef",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            UserId = "a1b2c3d4-6789-0123-9876-abcdefabcdef",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            UserId = "a1b2c3d4-7890-1234-9876-abcdefabcdef",
+                            RoleId = "2"
                         });
                 });
 
@@ -605,6 +697,146 @@ namespace InhumanShopApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Veterinarian", b =>
+                {
+                    b.HasBaseType("InhumanShopApp.Infrastructure.Data.Models.User");
+
+                    b.Property<string>("Specialization")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("TelNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("YearsOfExperience")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("Veterinarian");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a1b2c3d4-1234-5678-9876-abcdefabcdef",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "dac1e871-8ef0-4ce3-8696-f233117d289b",
+                            Email = "sarah@zooshop.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Dr. Sarah Johnson",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJt8z8Geqq1oeyqvCp3Pq1WCvtNtQ/7AvjTCrosonZ/idJZdqyyX83isdqlQlRMYKw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "0f99a690-423c-4140-a18e-6422d46d3858",
+                            TwoFactorEnabled = false,
+                            Specialization = "Small Animals",
+                            TelNumber = "+359888123456",
+                            YearsOfExperience = 8
+                        },
+                        new
+                        {
+                            Id = "a1b2c3d4-2345-6789-9876-abcdefabcdef",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "25702291-202e-4e7a-b1a6-0deb9a42dd1c",
+                            Email = "michael@zooshop.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Dr. Michael Brown",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPnqLSJ7zre6yFp08G4/3ASXJlIZgNm5sIoC5AU4+MYmD+Z7HoVYnT80wGobLHqgFg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "644f19ea-55b5-4875-96b6-7bdd385676fa",
+                            TwoFactorEnabled = false,
+                            Specialization = "Exotic Animals",
+                            TelNumber = "+359888654321",
+                            YearsOfExperience = 12
+                        },
+                        new
+                        {
+                            Id = "a1b2c3d4-3456-7890-9876-abcdefabcdef",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0adc55b5-6265-41a3-80e9-5fa9456fd23f",
+                            Email = "emma@zooshop.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Dr. Emma Davis",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPJ1tTvld8akOiFyUyvkdEYk3uki1jLFxjkReRbRSxQuzcgv/wR5Zi2tHTJq8y0vGg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "12fd690a-afc3-4c13-b71a-c5c0d835fd93",
+                            TwoFactorEnabled = false,
+                            Specialization = "Large Animals",
+                            TelNumber = "+359888987654",
+                            YearsOfExperience = 10
+                        },
+                        new
+                        {
+                            Id = "a1b2c3d4-4567-8901-9876-abcdefabcdef",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "21791ed6-3ba2-47aa-9e4c-1e2ae3e25195",
+                            Email = "john@zooshop.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Dr. John Smith",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFq1WKJBATTHbRlyjBTqQOdoAnV6Na6ddm4LAZWCgpwipU1kovP5rBj6kge4k7Y3vg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d7573fca-0db6-4093-aef7-5aedeebfd16a",
+                            TwoFactorEnabled = false,
+                            Specialization = "Birds",
+                            TelNumber = "+359888456789",
+                            YearsOfExperience = 6
+                        },
+                        new
+                        {
+                            Id = "a1b2c3d4-5678-9012-9876-abcdefabcdef",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "138811a7-7544-47f0-a646-b621e6a97023",
+                            Email = "olivia@zooshop.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Dr. Olivia Wilson",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEByUXTbKEl1PCUnHqBXg+Fx8DiU5qBsVgbFCVLb785qPOhHpMeBJvv8b+gbbYD5tg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5a26b892-ccc8-496f-a993-8a3ab6357e1d",
+                            TwoFactorEnabled = false,
+                            Specialization = "Reptiles",
+                            TelNumber = "+359888123789",
+                            YearsOfExperience = 7
+                        },
+                        new
+                        {
+                            Id = "a1b2c3d4-6789-0123-9876-abcdefabcdef",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "dcb57004-682d-4f5f-abc8-77b418b8161c",
+                            Email = "william@zooshop.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Dr. William Garcia",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN41lXmBF9oQLRFfSQhcEPX+K0hqD1uthD1NEjHC6iWpascfWKyRJgTIsukFLl7+jQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c78ed8ce-e47c-4b71-98f8-e89064217e0c",
+                            TwoFactorEnabled = false,
+                            Specialization = "Fish",
+                            TelNumber = "+359888654987",
+                            YearsOfExperience = 5
+                        },
+                        new
+                        {
+                            Id = "a1b2c3d4-7890-1234-9876-abcdefabcdef",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "85b0c7c2-f9c8-47c4-9d88-13ecdb29e0dc",
+                            Email = "sophia@zooshop.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Dr. Sophia Martinez",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFD8m1tyrV+YrBxUU9fnNsWCCMx1IhWVrvmGmrGbO3H5MmpiVT7rjIu7ZkfOjcJkGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "df028a78-46f3-4b96-a192-1fdb3b6d5c01",
+                            TwoFactorEnabled = false,
+                            Specialization = "Wildlife",
+                            TelNumber = "+359888987123",
+                            YearsOfExperience = 15
+                        });
+                });
+
             modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Chat", b =>
                 {
                     b.HasOne("InhumanShopApp.Infrastructure.Data.Models.User", "User")
@@ -613,15 +845,7 @@ namespace InhumanShopApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("InhumanShopApp.Infrastructure.Data.Models.Veterinarian", "Veterinarian")
-                        .WithMany("Chats")
-                        .HasForeignKey("VeterinarianId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("User");
-
-                    b.Navigation("Veterinarian");
                 });
 
             modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Order", b =>
@@ -670,7 +894,15 @@ namespace InhumanShopApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("InhumanShopApp.Infrastructure.Data.Models.Size", "Size")
+                        .WithMany("Products")
+                        .HasForeignKey("SizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Size");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -734,12 +966,12 @@ namespace InhumanShopApp.Data.Migrations
                     b.Navigation("OrderItems");
                 });
 
-            modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.User", b =>
+            modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Size", b =>
                 {
-                    b.Navigation("Chats");
+                    b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Veterinarian", b =>
+            modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.User", b =>
                 {
                     b.Navigation("Chats");
                 });

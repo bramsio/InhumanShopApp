@@ -138,3 +138,10 @@ p {
     color: white;
     text-align: left;
 }
+
+
+.error-text {
+    color: red; /* Червен цвят за текста */
+    font-size: 0.875rem; /* Малък шрифт (можеш да регулираш размера) */
+    margin-top: 0.25rem;
+}

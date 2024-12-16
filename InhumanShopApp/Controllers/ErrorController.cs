@@ -18,6 +18,10 @@ namespace InhumanShopApp.Controllers
             {
                 return View("Error404"); 
             }
+            if(statusCode == 403)
+            {
+                return View("Error403");
+            }
 
             return View("Еrror");
         }

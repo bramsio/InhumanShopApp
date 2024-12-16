@@ -1,14 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InhumanShopApp.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace InhumanShopApp.Controllers
 {
     public class CartController : Controller
-    {
-        //cart and CRUD operations for products in cart 
+    {   //cart and CRUD operations for products in cart 
+
+        private readonly ApplicationDbContext context;
+
+        public CartController(ApplicationDbContext _context)
+        {
+            context = _context;
+        }
+
+
         public IActionResult Index()
         {
             return View();
         }
+
+
         //[HttpGet]
         //public async Task<IActionResult> Cart()
         //{

@@ -11,19 +11,19 @@ namespace InhumanShopApp.Data.SeedData
             var adminUserId = "7699db7d-964f-4782-8209-d76562e0fece";
 
             builder.Entity<User>().HasData(
-                new User
-                {
-                    Id = adminUserId,
-                    Name = "Belgin",
-                    UserName = "admin@zooshop.com",
-                    NormalizedUserName = "ADMIN@ZOOSHOP.COM",
-                    Email = "admin@zooshop.com",
-                    NormalizedEmail = "ADMIN@ZOOSHOP.COM",
-                    EmailConfirmed = true,
-                    PasswordHash = new PasswordHasher<User>().HashPassword(
-                        new User { UserName = "admin@zooshop.com" },
-                        "Admin123!")
-                }
+               new User
+               {
+                   Id = adminUserId,
+                   Name = "Belgin",
+                   UserName = "admin@zooshop.com",
+                   NormalizedUserName = "ADMIN@ZOOSHOP.COM",
+                   Email = "admin@zooshop.com",
+                   NormalizedEmail = "ADMIN@ZOOSHOP.COM",
+                   EmailConfirmed = true,
+                   PasswordHash = new PasswordHasher<User>().HashPassword(
+                       new User { UserName = "admin@zooshop.com" },
+                       "Admin123!")
+               }
             );
 
             builder.Entity<IdentityUserRole<string>>().HasData(
@@ -36,3 +36,5 @@ namespace InhumanShopApp.Data.SeedData
         }
     }
 }
+
+

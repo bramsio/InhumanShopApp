@@ -24,6 +24,15 @@ namespace InhumanShopApp.Infrastructure.Data.Models
         [Comment("Product Price")]
         public decimal Price { get; set; }
 
+        [Required]
+        public int SizeId { get; set; }
+        [Required]
+        [Comment("Product size")]
+        public Size Size { get; set; } = null!;
+
+        [Required]
+        [Comment("Product quanity")]
+        public int Quantity { get; set; } = 1;
 
         [Required]
         public int CategoryId { get; set; }

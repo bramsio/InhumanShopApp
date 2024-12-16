@@ -29,7 +29,6 @@ namespace InhumanShopApp.Controllers
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Count = p.Count,
                     Price = p.Price,
                     Category = p.Category.Name,
                     Description = p.Description,
@@ -40,7 +39,45 @@ namespace InhumanShopApp.Controllers
             return View(products);
         }
 
+        //// products with filter and search
+        //[AllowAnonymous]
+        //[HttpGet]
+        //public async Task<IActionResult> Index(string category, bool filter = false)
+        //{
+        //    // Извличане на всички продукти
+        //    var productsQuery = context.Products.AsQueryable();
 
+        //    // Ако е зададена категория, филтрирай продуктите
+        //    if (!string.IsNullOrEmpty(category))
+        //    {
+        //        productsQuery = productsQuery.Where(p => p.Category.Name == category);
+        //    }
+
+        //    // Извличане на продуктите след евентуалното филтриране
+        //    var products = await productsQuery
+        //        .Select(p => new ProductInfoViewModel
+        //        {
+        //            Id = p.Id,
+        //            Name = p.Name,
+        //            Price = p.Price,
+        //            Category = p.Category.Name,
+        //            Description = p.Description,
+        //            ImageUrl = p.ImageUrl
+        //        })
+        //        .ToListAsync();
+
+        //    // Извличане на всички категории за dropdown менюто
+        //    var categories = await context.Categories
+        //        .Select(c => c.Name)
+        //        .ToListAsync();
+
+        //    // Предаване на категориите и текущата селекция към View-то
+        //    ViewData["Categories"] = categories;
+        //    ViewData["SelectedCategory"] = category;
+        //    ViewData["FilterCategories"] = filter; // Управлява показването на филтъра в View-то
+
+        //    return View(products);
+        //}
 
 
         //Add product

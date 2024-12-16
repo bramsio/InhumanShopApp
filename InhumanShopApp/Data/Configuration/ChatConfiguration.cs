@@ -8,19 +8,24 @@ namespace InhumanShopApp.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Chat> builder)
         {
-            // Връзка между User и Chat
             builder
-                .HasOne(c => c.User)
-                .WithMany(u => u.Chats)
-                .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+           .HasOne(c => c.User)
+           .WithMany(u => u.Chats)
+           .HasForeignKey(c => c.UserId)
+           .OnDelete(DeleteBehavior.Restrict);
 
-            // Връзка между Veterinarian и Chat
+
+            // Добавяне на условия за IsFromUser
             builder
-                .HasOne(c => c.Veterinarian)
-                .WithMany(v => v.Chats)
-                .HasForeignKey(c => c.VeterinarianId)
-                .OnDelete(DeleteBehavior.Restrict);
+            .Property(c => c.IsFromUser)
+            .HasConversion<int?>()
+            .HasConversion(
+               v => v.HasValue ? 1 : 0,
+                v => v == 1
+            )
+            .HasDefaultValue(null);
         }
+
+    
     }
 }

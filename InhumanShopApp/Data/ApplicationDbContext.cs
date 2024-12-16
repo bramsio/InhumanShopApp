@@ -18,11 +18,18 @@ namespace InhumanShopApp.Data
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<User>()
+                .HasDiscriminator<string>("UserType")
+                .HasValue<User>("User")
+                .HasValue<Veterinarian>("Veterinarian");
+
+
             // Зареждане на конфигурациите
             builder.ApplyConfiguration(new ChatConfiguration());
             builder.ApplyConfiguration(new OrderConfiguration());
             builder.ApplyConfiguration(new OrderItemConfiguration());
             builder.ApplyConfiguration(new ProductConfiguration());
+            //builder.ApplyConfiguration(new VeterinarianConfiguration());
 
 
             // Зареждане на Seed данни
@@ -30,16 +37,19 @@ namespace InhumanShopApp.Data
             AdminSeedData.Seed(builder);
             CategorySeedData.Seed(builder);
             ProductSeedData.Seed(builder);
+            SizeSeedData.Seed(builder);
+            VeterinarianSeedData.Seed(builder);
         }
 
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Size> Sizes { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Status> Statuses { get; set; }
-        public DbSet<Veterinarian> Veterinarians { get; set; }
+
     }
 }
 

@@ -11,14 +11,14 @@
 
 <div class="row justify-content-center">
     <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title text-center">@Model.Name</h3>
+        <div class="delete-container">
+            <div class="delete-body">
+                <h3 class="accept-policy text-center">@Model.Name</h3>
                 <p class="text-danger mt-3">
                     Are you sure you want to delete <strong>@Model.Name</strong>?
                 </p>
             </div>
-            <div class="card-footer d-flex justify-content-between">
+            <div class="delete-footer d-flex justify-content-between">
                 <form asp-action="Delete" method="post">
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="Name" />
@@ -26,8 +26,8 @@
                         <i class="fas fa-trash"></i> Confirm Delete
                     </button>
                 </form>
-                <div class="action-button">
-                    <a href="javascript:void(0);" onclick="goBack();" class="btn btn-warning">Cancel</a>
+                <div class="btn">
+                    <a href="javascript:void(0);" onclick="goBack();">Cancel</a>
                 </div>
             </div>
         </div>
@@ -35,3 +35,7 @@
 </div>
 
 <script src="/js/navigation.js" defer></script>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/product.css" />
+}

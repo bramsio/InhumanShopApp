@@ -53,38 +53,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-using (var scope = app.Services.CreateScope())
-{
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-
-    string[] roles = { "User", "Veterinarian", "Administrator" };
-
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
-
-    const string adminEmail = "admin@zooshop.com"; 
-    const string adminPassword = "Admin123!"; 
-
-    var adminUser = await userManager.FindByEmailAsync(adminEmail);
-
-    if (adminUser == null)
-    {
-        var user = new User { UserName = adminEmail, Email = adminEmail };
-        var result = await userManager.CreateAsync(user, adminPassword);
-
-        if (result.Succeeded)
-        {
-            await userManager.AddToRoleAsync(user, "Administrator");
-        }
-    }
-}
-
 //// Конфигурация на маршрута за SignalR
 //app.UseEndpoints(endpoints =>
 //{

@@ -58,16 +58,17 @@ namespace InhumanShopApp.Infrastructure.Constants
     }
     public static class VeterinarianConstants
     {
-        public const int veterinarianFirsNameMaxLnegth = 30;
-        public const int veterinarianFirstNameMinLength = 3;
-
-        public const int veterinarianLastNameMaxLength = 30;
-        public const int veterinarianLastNameMinLength = 30;
+        public const int veterinarianNameMaxLength = 50;
+        public const int veterinarianNameMinLength = 5;
 
         public const int veterinarianSpecializationMaxLength = 50;
         public const int veterinarianSpecializationMinLength = 4;
 
-        public const int veterinarianDescriptionMaxLength = 1000;
-        public const int veterianrianDescriptionMinLength = 20;
+        public const string invalidVeterinarianMessage = "Invalid phone number format.";
+    }
+    public static class SizeConstants
+    {
+        public const int sizeNameMaxLength = 30;
+        public const int sizeNameMinLength = 3;
     }
 }

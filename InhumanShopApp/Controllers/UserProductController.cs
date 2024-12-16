@@ -1,4 +1,5 @@
 ﻿using InhumanShopApp.Data;
+using InhumanShopApp.Infrastructure.Data.Models;
 using InhumanShopApp.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,66 +26,103 @@ namespace InhumanShopApp.Controllers
         //Add product to cart
         //get -> за избиране на брой и размер 
 
+        //[Required(ErrorMessage = requireFieldMessage)]
+        //[Comment("Product Size")]
+        //public string Size { get; set; } = null!;
+
+
         //[HttpPost]
         //public async Task<IActionResult> AddToCart(int id)
         //{
-        //    string userId = GetUserId();
-
-        //    if (userId == null)
-        //    {
-        //        return Unauthorized();
-        //    }
-
-        //    var favorite = new UserDestination
-        //    {
-        //        UserId = userId,
-        //        DestinationId = id
-        //    };
-
-        //    context.UserDestinations.Add(favorite);
-        //    await context.SaveChangesAsync();
-
-
-        //    string redirectUrl = Url.Action("Index", "Destination");
-
-        //    var currentUrl = Request.Headers["Referer"].ToString();
-        //    if (!string.IsNullOrEmpty(currentUrl) && currentUrl.Contains("Destination/Details"))
-        //    {
-        //        redirectUrl = Url.Action("Details", "Destination", new { id });
-        //    }
-
-        //    return Redirect(redirectUrl);
-        //}
-
-
-
-
-        ////The details of profuct
-        //[HttpGet]
-        //public async Task<IActionResult> Details(int id)
-        //{
-        //    var product = await context.Products
-        //        .Include(p => p.Category)
-        //        .FirstOrDefaultAsync(p => p.Id == id);
-
+        //    var product = context.Products.Find(id);
         //    if (product == null)
         //    {
-        //        return NotFound();
+        //        return NotFound(); 
         //    }
 
+        //    var cart = HttpContext.Session.GetObjectFromJson<List<OrderItem>>("Cart") ?? new List<OrderItem>();
 
-        //    var viewModel = new ProductDetailsViewModel
+        //    var cartItem = cart.FirstOrDefault(i => i.ProductId == id);
+        //    if (cartItem == null)
         //    {
-        //        Id = product.Id,
-        //        Name = product.Name,
-        //        Description = product.Description,
-        //        ImageUrl = product.ImageUrl,
-        //        Terrain = product.Terrain.Name,
-        //        PublishedOn = product.PublishedOn,
-        //        Publisher = product.Publisher.UserName,
-        //    };
+        //        cart.Add(new OrderItem
+        //        {
+        //            ProductId = product.Id,
+        //            Price = product.Price,
+        //            Quantity = 1
+        //        });
+        //    }
+        //    else
+        //    {
+        //        cartItem.Quantity += quantity;
+        //    }
 
-        //    return View(viewModel);
+        //    HttpContext.Session.SetObjectAsJson("Cart", cart);
+        //    TempData["Message"] = $"{product.Name} has been added to your cart.";
+
+        //    return RedirectToAction("Index");
         //}
+
+
+
+
+        //The details of profuct
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var product = await context.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+
+            var viewModel = new ProductDetailsViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                ImageUrl = product.ImageUrl,
+                Price = product.Price,
+                Category = product.Category.Name,
+                Quantity = product.Quantity,
+                Count = product.Count,
+                SizeId = 1
+            };
+
+            return View(viewModel);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> FilterCategory(int? categoryId)
+        {
+            var productsQuery = context.Products
+            .Include(p => p.Category) 
+            .AsQueryable();
+
+            if (categoryId.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.CategoryId == categoryId.Value);
+            }
+
+            var products = await productsQuery
+            .Select(p => new ProductInfoViewModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                Category = p.Category.Name,
+                Description = p.Description,
+                ImageUrl = p.ImageUrl
+            })
+            .ToListAsync();
+
+
+            return View("~/Views/Product/Index.cshtml", products);
+        }
     }
 }

@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/error.css" />
+}
+
+<div class="error 403">
+    <h1 style="color: red">Access forbiden!</h1>
+    <h2>You dont have access to this resource.</h2>
+    <div class="error-container">
+        <div class="error-icon">
+            <img src="~/images/Error/SadDogImage.jpg" alt="Error Icon">
+        </div>
+        <div class="action-button">
+            <a href="javascript:void(0);" onclick="goBack();" class="text-decoration-none mt-3">Back</a>
+        </div>
+    </div>
+</div>
+
+<script src="/js/navigation.js" defer></script>
