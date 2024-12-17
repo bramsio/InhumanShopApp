@@ -98,6 +98,7 @@ namespace InhumanShopApp.Controllers
                 model.Categories = await GetCategories();
                 return View(model);
             }
+            var availableSizes = await context.Sizes.ToListAsync();
             var entity = new Product()
             {
                 Name = model.Name,
@@ -106,6 +107,7 @@ namespace InhumanShopApp.Controllers
                 CategoryId = model.CategoryId,
                 Description = model.Description,
                 ImageUrl = model.ImageUrl,
+                Sizes = availableSizes
             };
 
             await context.Products.AddAsync(entity);

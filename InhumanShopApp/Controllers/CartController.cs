@@ -228,7 +228,7 @@ namespace InhumanShopApp.Controllers
             await context.SaveChangesAsync();
 
             TempData["Message"] = "Вашата поръчка беше успешно завършена!";
-            return RedirectToAction("ViewOrders");
+            return View("~/Views/Cart/ViewOrders.cshtml");
         }
 
 

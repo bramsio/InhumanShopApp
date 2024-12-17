@@ -1,0 +1,103 @@
+﻿@model List<InhumanShopApp.Models.Cart.OrderHistoryViewModel>
+
+﻿@{
+    ViewData["Title"] = "Your Orders";
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+<div class="message">
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success" role="alert">
+            @successMessage
+        </div>
+
+        <script>
+            setTimeout(function () {
+                document.querySelector('.alert').style.display = 'none';
+            }, 5000);
+        </script>
+    }
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
+    <h1>@ViewData["Title"]</h1>
+    <a asp-controller="Product" asp-action="Index" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Back
+    </a>
+</div>
+<hr />
+
+
+<h2>Completed Orders</h2>
+@if (Model.Any(o => o.Status.Equals("completed", StringComparison.OrdinalIgnoreCase)))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Total Price</th>
+                <th>Products</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Where(o => o.Status.Equals("completed", StringComparison.OrdinalIgnoreCase)))
+            {
+                <tr>
+                    <td>@order.OrderDate.ToString("dd-MM-yyyy")</td>
+                    <td>@order.Status</td>
+                    <td>@order.TotalPrice.ToString("C")</td>
+                    <td>
+                        <ul>
+                            @foreach (var product in order.Products)
+                            {
+                                <li>@product.Name - Quantity: @product.Quantity</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No completed orders available.</p>
+}
+
+<h2>Canceled Orders</h2>
+@if (Model.Any(o => o.Status.Equals("canceled", StringComparison.OrdinalIgnoreCase)))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Total Price</th>
+                <th>Products</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Where(o => o.Status.Equals("canceled", StringComparison.OrdinalIgnoreCase)))
+            {
+                <tr>
+                    <td>@order.OrderDate.ToString("dd-MM-yyyy")</td>
+                    <td>@order.Status</td>
+                    <td>@order.TotalPrice.ToString("C")</td>
+                    <td>
+                        <ul>
+                            @foreach (var product in order.Products)
+                            {
+                                <li>@product.Name - Quantity: @product.Quantity</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No canceled orders available.</p>
+}

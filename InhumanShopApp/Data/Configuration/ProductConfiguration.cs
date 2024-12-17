@@ -18,7 +18,6 @@ namespace InhumanShopApp.Data.Configuration
                 .Property(p => p.Price)
                 .HasColumnType("decimal(18,2)");
 
-          
         }
     }
 }

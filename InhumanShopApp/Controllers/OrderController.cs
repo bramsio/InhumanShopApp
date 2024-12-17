@@ -21,11 +21,33 @@ namespace InhumanShopApp.Controllers
         }
 
         // View All Orders
+        //public async Task<IActionResult> ViewOrders()
+        //{
+        //    var userId = GetUserId();
+        //    var orders = await context.Orders
+        //        .Include(o => o.Status)
+        //        .Where(o => o.UserId == userId)
+        //        .ToListAsync();
+
+        //    var ordersViewModel = orders.Select(o => new OrderHistoryViewModel
+        //    {
+        //        OrderId = o.Id,
+        //        OrderDate = o.OrderDate,
+        //        Status = o.Status.Name,
+        //        TotalPrice = o.TotalPrice
+        //    }).ToList();
+
+        //    return View("~/Views/Cart/ViewOrders.cshtml",ordersViewModel);
+        //}
+
         public async Task<IActionResult> ViewOrders()
         {
             var userId = GetUserId();
+
             var orders = await context.Orders
                 .Include(o => o.Status)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
                 .Where(o => o.UserId == userId)
                 .ToListAsync();
 
@@ -34,11 +56,17 @@ namespace InhumanShopApp.Controllers
                 OrderId = o.Id,
                 OrderDate = o.OrderDate,
                 Status = o.Status.Name,
-                TotalPrice = o.TotalPrice
+                TotalPrice = o.TotalPrice,
+                Products = o.OrderItems.Select(oi => new OrderProductViewModel
+                {
+                    Name = oi.Product.Name,
+                    Quantity = oi.Quantity
+                }).ToList()
             }).ToList();
 
-            return View(ordersViewModel);
+            return View("~/Views/Cart/ViewOrders.cshtml", ordersViewModel);
         }
+
 
         private string GetUserId()
         {

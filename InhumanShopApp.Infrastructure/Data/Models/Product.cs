@@ -25,13 +25,6 @@ namespace InhumanShopApp.Infrastructure.Data.Models
         public decimal Price { get; set; }
 
         [Required]
-        public int SizeId { get; set; }
-        [Required]
-        [Comment("Product size")]
-        public Size Size { get; set; } = null!;
-
-
-        [Required]
         public int CategoryId { get; set; }
 
         [Required]
@@ -45,6 +38,8 @@ namespace InhumanShopApp.Infrastructure.Data.Models
         public string Description { get; set; } = string.Empty;
 
         [Comment("Product image url")]
-        public string? ImageUrl { get; set; } 
+        public string? ImageUrl { get; set; }
+
+        public ICollection<Size> Sizes { get; set; } = new List<Size>();
     }
 }

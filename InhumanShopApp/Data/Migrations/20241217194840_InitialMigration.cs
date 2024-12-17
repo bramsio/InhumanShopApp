@@ -229,7 +229,6 @@ namespace InhumanShopApp.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Product Name"),
                     Count = table.Column<int>(type: "int", nullable: false, comment: "Product count"),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false, comment: "Product Price"),
-                    SizeId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: false, comment: "Product description"),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Product image url")
@@ -241,12 +240,6 @@ namespace InhumanShopApp.Data.Migrations
                         name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Products_Sizes_SizeId",
-                        column: x => x.SizeId,
-                        principalTable: "Sizes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -275,6 +268,30 @@ namespace InhumanShopApp.Data.Migrations
                         name: "FK_Orders_Statuses_StatusId",
                         column: x => x.StatusId,
                         principalTable: "Statuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductSize",
+                columns: table => new
+                {
+                    ProductsId = table.Column<int>(type: "int", nullable: false),
+                    SizesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductSize", x => new { x.ProductsId, x.SizesId });
+                    table.ForeignKey(
+                        name: "FK_ProductSize_Products_ProductsId",
+                        column: x => x.ProductsId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductSize_Sizes_SizesId",
+                        column: x => x.SizesId,
+                        principalTable: "Sizes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -341,28 +358,28 @@ namespace InhumanShopApp.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "1379f661-397a-4fd8-89f4-a39dc95db553", "User", "USER" },
-                    { "2", "f6a9cbab-1ad6-4cd1-b9d4-d3be54433ffd", "Veterinarian", "VETERINARIAN" },
-                    { "3", "2b31451c-50bf-456f-aa9d-fbca5edc120a", "Administrator", "ADMINISTRATOR" }
+                    { "1", "c3260e38-4360-402c-bcbf-8b2040ae1e58", "User", "USER" },
+                    { "2", "6dbd8bf0-8829-4bd7-83dc-65165c77f6af", "Veterinarian", "VETERINARIAN" },
+                    { "3", "767203e2-5bd5-47e4-ab56-d24d55aa5473", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserType" },
-                values: new object[] { "7699db7d-964f-4782-8209-d76562e0fece", 0, "bf8da58c-4808-46ab-80c8-8569091f2bdc", "admin@zooshop.com", true, false, null, "Belgin", "ADMIN@ZOOSHOP.COM", "ADMIN@ZOOSHOP.COM", "AQAAAAEAACcQAAAAEIalrMJz7r9Tm1sGi0zlXa+9AQSKSJKANGDjl3tG35H6SRZ6apKiLmZLSqQ3tlr/7w==", null, false, "f81de5cf-52d0-4fe6-9662-7a221094cdd7", false, "admin@zooshop.com", "User" });
+                values: new object[] { "7699db7d-964f-4782-8209-d76562e0fece", 0, "957b6e79-cf85-4fdd-ac29-b229491755eb", "admin@zooshop.com", true, false, null, "Belgin", "ADMIN@ZOOSHOP.COM", "ADMIN@ZOOSHOP.COM", "AQAAAAEAACcQAAAAEMyfNKIRf7IhSSBHz4cmh23X4AWA4jFWwRQ+AqrVynSn5W2rEg73RBf7RuD+JgvHIw==", null, false, "cec13a9e-b68a-481a-80af-371522e8cf41", false, "admin@zooshop.com", "User" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Specialization", "TelNumber", "TwoFactorEnabled", "UserName", "UserType", "YearsOfExperience" },
                 values: new object[,]
                 {
-                    { "a1b2c3d4-1234-5678-9876-abcdefabcdef", 0, "3d4c5f67-9e63-488e-adf4-6c223108489f", "sarah@zooshop.com", false, false, null, "Dr. Sarah Johnson", null, null, "AQAAAAEAACcQAAAAENpKkO2IaSlCktFbWWUzEEfOY2wNovHfS+OY6mfiO/YDnNH+mZrZAPedNGeF2AuPFg==", null, false, "1fc13e1d-afaa-4029-b657-9787f6aeeaf2", "Small Animals", "+359888123456", false, null, "Veterinarian", 8 },
-                    { "a1b2c3d4-2345-6789-9876-abcdefabcdef", 0, "5e34761a-84df-406b-802f-713b7bcf2eef", "michael@zooshop.com", false, false, null, "Dr. Michael Brown", null, null, "AQAAAAEAACcQAAAAELgSBauUbtHhzljlBu5SrVowkv+6zdCf/yDqVO9OnmL05vdbtwWFlOa4XvU1EOsZJA==", null, false, "c0e821dd-cf3c-4b22-bed1-8fe3d2d7a29d", "Exotic Animals", "+359888654321", false, null, "Veterinarian", 12 },
-                    { "a1b2c3d4-3456-7890-9876-abcdefabcdef", 0, "edcda660-cda2-49a0-9182-045b734ade3e", "emma@zooshop.com", false, false, null, "Dr. Emma Davis", null, null, "AQAAAAEAACcQAAAAEIPIKWJ5ufXI+Sznjo9KnNtQNjzELu56x5mZmXNN7H7reTKgmhJ5EpX0+Y1TbAN0hw==", null, false, "e0ef2d6d-da5a-402a-83c0-ee5bc8693ee8", "Large Animals", "+359888987654", false, null, "Veterinarian", 10 },
-                    { "a1b2c3d4-4567-8901-9876-abcdefabcdef", 0, "01e3aa05-a3e0-40a7-b1a3-8ecb8867ee61", "john@zooshop.com", false, false, null, "Dr. John Smith", null, null, "AQAAAAEAACcQAAAAEG+UhXC6JuneBHSrJWv8BYNcMWGNtAC3YBPwHanfK5pCX9EAOmj3swC61iTkDQdY1A==", null, false, "00ba9ee9-df24-486a-a078-528ae9cf27c9", "Birds", "+359888456789", false, null, "Veterinarian", 6 },
-                    { "a1b2c3d4-5678-9012-9876-abcdefabcdef", 0, "a2424eb8-b0fd-48d4-9ece-24c49392c8eb", "olivia@zooshop.com", false, false, null, "Dr. Olivia Wilson", null, null, "AQAAAAEAACcQAAAAEDWNqpZ3bDmf67AVzmoMLYSwZzMt0LVfHdNFaPKj3pM0BRqjNpmwMHlhKFhlKHhAbQ==", null, false, "854850ac-4944-4d14-97b5-15abce3b0afc", "Reptiles", "+359888123789", false, null, "Veterinarian", 7 },
-                    { "a1b2c3d4-6789-0123-9876-abcdefabcdef", 0, "f9a61b91-620f-4e7e-8fb9-1bd4d5529dd8", "william@zooshop.com", false, false, null, "Dr. William Garcia", null, null, "AQAAAAEAACcQAAAAEPk+BTvr8mjujsrZ1WIyGhIv5zXs9ZlsS5Ksbx0cPYaKiiLa2VoXMSok1IftTITmWw==", null, false, "7aecd91e-741b-4845-a9f2-2fc32529f865", "Fish", "+359888654987", false, null, "Veterinarian", 5 },
-                    { "a1b2c3d4-7890-1234-9876-abcdefabcdef", 0, "bd12b833-3aae-472f-9756-d1ccac335826", "sophia@zooshop.com", false, false, null, "Dr. Sophia Martinez", null, null, "AQAAAAEAACcQAAAAEDGVHLz1lxtzB41PZOMj40hQQt3b86boZzhJt3YMHTVl2sMzK7VwgKnzWmGS7/j6lw==", null, false, "10263de7-8197-414b-bc48-a5a5cd315c29", "Wildlife", "+359888987123", false, null, "Veterinarian", 15 }
+                    { "a1b2c3d4-1234-5678-9876-abcdefabcdef", 0, "da5149b2-b394-47f1-823b-97c72889f326", "sarah@zooshop.com", false, false, null, "Dr. Sarah Johnson", "SARAH@ZOOSHOP.COM", "SARAH@ZOOSHOP.COM", "AQAAAAEAACcQAAAAEAue0Yfu+7zbXmsbHDRlKVkoe/6jENCjUOyD3Fba/KxgtLSwiokTM+2d7TmdCGOblA==", null, false, "4c4b9e36-b46f-42bb-ad1c-6a09c86d4792", "Small Animals", "+359888123456", false, "sarah@zooshop.com", "Veterinarian", 8 },
+                    { "a1b2c3d4-2345-6789-9876-abcdefabcdef", 0, "e001cd27-976b-40e1-b74d-df896ad514e3", "michael@zooshop.com", false, false, null, "Dr. Michael Brown", "MICHAEL@ZOOSHOP.COM", "MICHAEL@ZOOSHOP.COM", "AQAAAAEAACcQAAAAEPFkxvMWOkElUHWM5ReSiTAdyUfQBuES98HvZueR3vhl0NSvIOnEvXxUxytTNiaJrQ==", null, false, "ff24dadc-4ed8-4d31-b9ca-05917311e081", "Exotic Animals", "+359888654321", false, "michael@zooshop.com", "Veterinarian", 12 },
+                    { "a1b2c3d4-3456-7890-9876-abcdefabcdef", 0, "9f1ce7dd-19fa-4ced-9138-0973fe5180fe", "emma@zooshop.com", false, false, null, "Dr. Emma Davis", "EMMA@ZOOSHOP.COM", "EMMA@ZOOSHOP.COM", "AQAAAAEAACcQAAAAEEru0Vs5qDW1/9Jy84IujVUEixyqJXd1P02HkZQwunp/7cP1/iM8mEw9XzhMAtPNKQ==", null, false, "f0c111ec-fdc7-40ce-8377-b0a9d11cf86a", "Large Animals", "+359888987654", false, "emma@zooshop.com", "Veterinarian", 10 },
+                    { "a1b2c3d4-4567-8901-9876-abcdefabcdef", 0, "9dcbc29d-c9bc-4120-bc59-4b9d2ed5e7af", "john@zooshop.com", false, false, null, "Dr. John Smith", "JOHN@ZOOSHOP.COM", "JOHN@ZOOSHOP.COM", "AQAAAAEAACcQAAAAEIV54PFjtfMq6ruLELOioyc8htclvHJyGviYc3wNPaev/zHtQ8YDsNvP3FkMVqNHMA==", null, false, "7be556e1-e03b-4d42-90d5-37b8b93f9688", "Birds", "+359888456789", false, "john@zooshop.com", "Veterinarian", 6 },
+                    { "a1b2c3d4-5678-9012-9876-abcdefabcdef", 0, "7a823afa-8d8c-458c-938c-597d83e9115d", "olivia@zooshop.com", false, false, null, "Dr. Olivia Wilson", "OLIVIA@ZOOSHOP.COM", "OLIVIA@ZOOSHOP.COM", "AQAAAAEAACcQAAAAEFxhl1X+BzzhfXN91OlIo9PPSMdY4KdTOoL88XdFWOHuJtui2Gc9c1pNw6taaYNJww==", null, false, "ca2bca7e-dceb-4ed8-ac5e-c26d12c1c9fa", "Reptiles", "+359888123789", false, "olivia@zooshop.com", "Veterinarian", 7 },
+                    { "a1b2c3d4-6789-0123-9876-abcdefabcdef", 0, "3f094e77-5b6a-4a2f-98e6-278ebe0a8075", "william@zooshop.com", false, false, null, "Dr. William Garcia", "WILLIAM@ZOOSHOP.COM", "WILLIAM@ZOOSHOP.COM", "AQAAAAEAACcQAAAAEIW3qcq2P3XI1ZAja/Kj2JKmBbTYdB+4QckpFz4y2XzZ0Q2VTKoSiFVYzTcG0zJQbg==", null, false, "775a56df-5918-4286-9600-78e1d9102563", "Fish", "+359888654987", false, "william@zooshop.com", "Veterinarian", 5 },
+                    { "a1b2c3d4-7890-1234-9876-abcdefabcdef", 0, "8987a47e-045c-49bf-bc43-b7e1e8fabf62", "sophia@zooshop.com", false, false, null, "Dr. Sophia Martinez", "SOPHIA@ZOOSHOP.COM", "SOPHIA@ZOOSHOP.COM", "AQAAAAEAACcQAAAAEFxMNCLnhSG8aPLd+2ikph3061KyHNCT2HMXr90RogXCAtSYgZDUbg6NKxhSmZm2aA==", null, false, "beca75aa-c34c-43ad-b375-4d91446caacb", "Wildlife", "+359888987123", false, "sophia@zooshop.com", "Veterinarian", 15 }
                 });
 
             migrationBuilder.InsertData(
@@ -416,19 +433,19 @@ namespace InhumanShopApp.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "CategoryId", "Count", "Description", "ImageUrl", "Name", "Price", "SizeId" },
+                columns: new[] { "Id", "CategoryId", "Count", "Description", "ImageUrl", "Name", "Price" },
                 values: new object[,]
                 {
-                    { 1, 5, 50, "High-quality dog food for adult dogs.", "images/Products/Premium_Dog_Food.jpg", "Premium Dog Food", 45.99m, 3 },
-                    { 2, 2, 20, "Durable scratching post for cats.", "images/Products/Cat_Scratching_Post.jpg", "Cat Scratching Post", 29.99m, 4 },
-                    { 3, 2, 100, "Rubber chew toy to keep your dog entertained.", "images/Products/Dog_Chew_Toy.jpg", "Dog Chew Toy", 15.49m, 2 },
-                    { 4, 4, 75, "Adjustable cat collar with a small bell.", "images/Products/Cat_Collar_with_Bell.jpg", "Cat Collar with Bell", 9.99m, 2 },
-                    { 5, 4, 30, "Comfortable bed for medium-sized dogs.", "images/Products/Dog_And_Cat_Bed.jpg", "Dog And Cat Bed", 59.99m, 3 },
-                    { 6, 5, 40, "Cat litter with odor-neutralizing technology.", "images/Products/Cat_Litter-Odor_Control.jpg", "Cat Litter - Odor Control", 19.99m, 5 },
-                    { 7, 3, 60, "Gentle shampoo for dogs with sensitive skin.", "images/Products/Dog_Shampoo-Sensitive_Skin.jpg", "Dog Shampoo - Sensitive Skin", 12.49m, 1 },
-                    { 8, 5, 200, "Delicious salmon-flavored treats for cats.", "images/Products/Cat_Treats-Salmon_Flavor.jpg", "Cat Treats - Salmon Flavor", 5.99m, 2 },
-                    { 9, 4, 25, "Adjustable harness for comfortable walks.", "images/Products/Dog_Harness-Adjustable.jpg", "Dog Harness - Adjustable", 24.99m, 3 },
-                    { 10, 2, 15, "Interactive tunnel toy for cats to play and hide.", "images/Products/Cat_Tunnel.jpg", "Cat Tunnel", 34.99m, 4 }
+                    { 1, 5, 50, "High-quality dog food for adult dogs.", "images/Products/Premium_Dog_Food.jpg", "Premium Dog Food", 45.99m },
+                    { 2, 2, 20, "Durable scratching post for cats.", "images/Products/Cat_Scratching_Post.jpg", "Cat Scratching Post", 29.99m },
+                    { 3, 2, 100, "Rubber chew toy to keep your dog entertained.", "images/Products/Dog_Chew_Toy.jpg", "Dog Chew Toy", 15.49m },
+                    { 4, 4, 75, "Adjustable cat collar with a small bell.", "images/Products/Cat_Collar_with_Bell.jpg", "Cat Collar with Bell", 9.99m },
+                    { 5, 4, 30, "Comfortable bed for medium-sized dogs.", "images/Products/Dog_And_Cat_Bed.jpg", "Dog And Cat Bed", 59.99m },
+                    { 6, 5, 40, "Cat litter with odor-neutralizing technology.", "images/Products/Cat_Litter-Odor_Control.jpg", "Cat Litter - Odor Control", 19.99m },
+                    { 7, 3, 60, "Gentle shampoo for dogs with sensitive skin.", "images/Products/Dog_Shampoo-Sensitive_Skin.jpg", "Dog Shampoo - Sensitive Skin", 12.49m },
+                    { 8, 5, 200, "Delicious salmon-flavored treats for cats.", "images/Products/Cat_Treats-Salmon_Flavor.jpg", "Cat Treats - Salmon Flavor", 5.99m },
+                    { 9, 4, 25, "Adjustable harness for comfortable walks.", "images/Products/Dog_Harness-Adjustable.jpg", "Dog Harness - Adjustable", 24.99m },
+                    { 10, 2, 15, "Interactive tunnel toy for cats to play and hide.", "images/Products/Cat_Tunnel.jpg", "Cat Tunnel", 34.99m }
                 });
 
             migrationBuilder.CreateIndex(
@@ -512,9 +529,9 @@ namespace InhumanShopApp.Data.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_SizeId",
-                table: "Products",
-                column: "SizeId");
+                name: "IX_ProductSize_SizesId",
+                table: "ProductSize",
+                column: "SizesId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -544,16 +561,16 @@ namespace InhumanShopApp.Data.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "ProductSize");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Sizes");
@@ -563,6 +580,9 @@ namespace InhumanShopApp.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Statuses");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }
