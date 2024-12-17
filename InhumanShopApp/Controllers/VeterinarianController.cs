@@ -73,5 +73,77 @@ namespace InhumanShopApp.Controllers
 
             return View(viewModel);
         }
+
+
+
+
+
+        // Edit veterinarian - GET
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+
+            var veterinarian = await context.Users
+                .OfType<Veterinarian>()
+                .FirstOrDefaultAsync(v => v.Id == id);
+
+            if (veterinarian == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new VeterinarianEditViewModel
+            {
+                Id = veterinarian.Id,
+                Name = veterinarian.Name,
+                Specialization = veterinarian.Specialization,
+                YearsOfExperience = veterinarian.YearsOfExperience,
+                TelNumber = veterinarian.TelNumber
+            };
+
+            return View(viewModel);
+        }
+
+        // Edit veterinarian - POST
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Edit(VeterinarianEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var veterinarian = await context.Users
+                .OfType<Veterinarian>()
+                .FirstOrDefaultAsync(v => v.Id == model.Id);
+
+            if (veterinarian == null)
+            {
+                return NotFound();
+            }
+
+            veterinarian.Name = model.Name;
+            veterinarian.Specialization = model.Specialization;
+            veterinarian.YearsOfExperience = model.YearsOfExperience;
+            veterinarian.TelNumber = model.TelNumber;
+
+            try
+            {
+                await context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while saving changes. Please try again.");
+                return View(model);
+            }
+        }
+
     }
 }

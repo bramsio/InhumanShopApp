@@ -1,0 +1,42 @@
+﻿@model InhumanShopApp.Models.Veterinarian.VeterinarianEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Veterinarian";
+}
+
+<h2>Edit Veterinarian</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Specialization"></label>
+        <input asp-for="Specialization" class="form-control" />
+        <span asp-validation-for="Specialization" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="YearsOfExperience"></label>
+        <input asp-for="YearsOfExperience" class="form-control" type="number" />
+        <span asp-validation-for="YearsOfExperience" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TelNumber"></label>
+        <input asp-for="TelNumber" class="form-control" />
+        <span asp-validation-for="TelNumber" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
