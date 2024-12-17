@@ -6,9 +6,12 @@
 <ul class="navbar-nav ms-auto">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Cart" asp-action="ViewCart">Cart</a>
-        </li>
+        @if (!User.IsInRole("Administrator"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-controller="Cart" asp-action="ViewCart">Cart</a>
+            </li>
+        }
         <li class="nav-item">
             <a class="nav-link text-dark" asp-controller="Account" asp-action="Profile">View Profile</a>
         </li>
