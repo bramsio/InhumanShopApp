@@ -28,76 +28,83 @@
 <hr />
 
 
-<h2>Completed Orders</h2>
-@if (Model.Any(o => o.Status.Equals("completed", StringComparison.OrdinalIgnoreCase)))
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Order Date</th>
-                <th>Status</th>
-                <th>Total Price</th>
-                <th>Products</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in Model.Where(o => o.Status.Equals("completed", StringComparison.OrdinalIgnoreCase)))
-            {
+<div class="content-container">
+    <h2>Completed Orders</h2>
+    @if (Model.Any(o => o.Status.Equals("completed", StringComparison.OrdinalIgnoreCase)))
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@order.OrderDate.ToString("dd-MM-yyyy")</td>
-                    <td>@order.Status</td>
-                    <td>@order.TotalPrice.ToString("C")</td>
-                    <td>
-                        <ul>
-                            @foreach (var product in order.Products)
-                            {
-                                <li>@product.Name - Quantity: @product.Quantity</li>
-                            }
-                        </ul>
-                    </td>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Total Price</th>
+                    <th>Products</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No completed orders available.</p>
-}
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Where(o => o.Status.Equals(    "completed", StringComparison.OrdinalIgnoreCase)))
+                {
+                    <tr>
+                        <td>@order.OrderDate.ToString("dd-MM-yyyy")</td>
+                        <td>@order.Status</td>
+                        <td>@order.TotalPrice.ToString("C")</td>
+                        <td>
+                            <ul>
+                                @foreach (var product in order.Products)
+                                {
+                                    <li>@product.Name - Quantity: @product.Quantity</li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No completed orders available.</p>
+    }
 
-<h2>Canceled Orders</h2>
-@if (Model.Any(o => o.Status.Equals("canceled", StringComparison.OrdinalIgnoreCase)))
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Order Date</th>
-                <th>Status</th>
-                <th>Total Price</th>
-                <th>Products</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in Model.Where(o => o.Status.Equals("canceled", StringComparison.OrdinalIgnoreCase)))
-            {
+
+    <h2>Canceled Orders</h2>
+    @if (Model.Any(o => o.Status.Equals("canceled", StringComparison.OrdinalIgnoreCase)))
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@order.OrderDate.ToString("dd-MM-yyyy")</td>
-                    <td>@order.Status</td>
-                    <td>@order.TotalPrice.ToString("C")</td>
-                    <td>
-                        <ul>
-                            @foreach (var product in order.Products)
-                            {
-                                <li>@product.Name - Quantity: @product.Quantity</li>
-                            }
-                        </ul>
-                    </td>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Total Price</th>
+                    <th>Products</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No canceled orders available.</p>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Where(o => o.Status.Equals(    "canceled", StringComparison.OrdinalIgnoreCase)))
+                {
+                    <tr>
+                        <td>@order.OrderDate.ToString("dd-MM-yyyy")</td>
+                        <td>@order.Status</td>
+                        <td>@order.TotalPrice.ToString("C")</td>
+                        <td>
+                            <ul>
+                                @foreach (var product in order.Products)
+                                {
+                                    <li>@product.Name - Quantity: @product.Quantity</li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No canceled orders available.</p>
+    }
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/cart.css" />
 }

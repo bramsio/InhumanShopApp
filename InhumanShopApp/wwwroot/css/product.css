@@ -99,7 +99,8 @@ html, body {
 
 
 .white-text{
-    padding: 3%;
+    padding: 30px;
+    padding-left: 100px;
     color: white ;
     font-weight: bold;
     font-size: 30px;

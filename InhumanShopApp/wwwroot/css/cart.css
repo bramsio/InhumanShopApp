@@ -1,23 +1,30 @@
-﻿.transparent-table {
+﻿
+html, body {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+.transparent-table {
     background-color: rgba(255, 255, 255, 0.8);
     border-collapse: collapse;
     width: 100%;
 }
 
-    .transparent-table th, .transparent-table td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
+.transparent-table th, .transparent-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
 
-    .transparent-table th {
-        background-color: #f4f4f4;
-        font-weight: bold;
-    }
+.transparent-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
 
-    .transparent-table tbody tr:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-    }
+.transparent-table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
 
 .btn {
     background-color: white;
@@ -31,10 +38,6 @@
     color: black;
 }
 
-
-div {
-    margin-bottom: 15px;
-}
 
 label {
     display: block;
@@ -52,6 +55,7 @@ input[type="text"] {
     font-size: 1em;
 color: #555;
 }
+
 
 h2 {
     text-align: center;
@@ -72,24 +76,18 @@ h3 {
     align-items: flex-end;
 }
 
-/*button {
-    background-color: white;
-    padding: 12px;
-    border: 1px solid #333;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    border-radius: 8px;
-    color: black;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.white-text {
+    padding: 10px;
+    padding-left: 80px;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
 }
 
-    button:hover {
-        color: black;
-    }
 
-
-*/
-
-
-
+.content-container {
+    background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачен бял фон */
+    padding: 20px;
+    border-radius: 10px; /* Заоблени ъгли */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
