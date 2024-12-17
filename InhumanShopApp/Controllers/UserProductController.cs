@@ -3,7 +3,7 @@ using InhumanShopApp.Infrastructure.Data.Models;
 using InhumanShopApp.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using System.Security.Claims;
 namespace InhumanShopApp.Controllers
 {
     public class UserProductController : Controller
@@ -23,53 +23,12 @@ namespace InhumanShopApp.Controllers
         }
 
 
-        //Add product to cart
-        //get -> за избиране на брой и размер 
-
-        //[Required(ErrorMessage = requireFieldMessage)]
-        //[Comment("Product Size")]
-        //public string Size { get; set; } = null!;
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> AddToCart(int id)
-        //{
-        //    var product = context.Products.Find(id);
-        //    if (product == null)
-        //    {
-        //        return NotFound(); 
-        //    }
-
-        //    var cart = HttpContext.Session.GetObjectFromJson<List<OrderItem>>("Cart") ?? new List<OrderItem>();
-
-        //    var cartItem = cart.FirstOrDefault(i => i.ProductId == id);
-        //    if (cartItem == null)
-        //    {
-        //        cart.Add(new OrderItem
-        //        {
-        //            ProductId = product.Id,
-        //            Price = product.Price,
-        //            Quantity = 1
-        //        });
-        //    }
-        //    else
-        //    {
-        //        cartItem.Quantity += quantity;
-        //    }
-
-        //    HttpContext.Session.SetObjectAsJson("Cart", cart);
-        //    TempData["Message"] = $"{product.Name} has been added to your cart.";
-
-        //    return RedirectToAction("Index");
-        //}
-
-
-
 
         //The details of profuct
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
+
             var product = await context.Products
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);
@@ -88,9 +47,9 @@ namespace InhumanShopApp.Controllers
                 ImageUrl = product.ImageUrl,
                 Price = product.Price,
                 Category = product.Category.Name,
-                Quantity = product.Quantity,
+                Quantity = 1,
                 Count = product.Count,
-                SizeId = 1
+                Sizes = await GetSizes()
             };
 
             return View(viewModel);
@@ -123,6 +82,20 @@ namespace InhumanShopApp.Controllers
 
 
             return View("~/Views/Product/Index.cshtml", products);
+        }
+
+
+
+        private async Task<IEnumerable<SizeViewModel>> GetSizes()
+        {
+            return await context.Sizes
+                .AsNoTracking()
+                .Select(c => new SizeViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
         }
     }
 }

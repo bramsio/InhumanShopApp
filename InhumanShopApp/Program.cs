@@ -5,7 +5,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddDistributedMemoryCache(); 
+builder.Services.AddSession();
 
 // Add services to the container.
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -25,10 +30,16 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 
 builder.Services.AddControllersWithViews();
 
+
+
+
 //// Добавяне на SignalR като услуга
 //builder.Services.AddSignalR();
 
 var app = builder.Build();
+
+app.UseSession();                             
+app.UseRouting();
 
 
 // Configure the HTTP request pipeline.

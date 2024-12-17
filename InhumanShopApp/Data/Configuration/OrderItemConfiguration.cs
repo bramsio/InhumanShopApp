@@ -11,6 +11,18 @@ namespace InhumanShopApp.Data.Configuration
             builder
                 .Property(oi => oi.Price)
                 .HasColumnType("decimal(18,2)");
+
+            builder
+             .HasOne(oi => oi.Size)
+             .WithMany()
+             .HasForeignKey(oi => oi.SizeId)
+             .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(oi => oi.Product)
+                .WithMany()
+                .HasForeignKey(oi => oi.ProductId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

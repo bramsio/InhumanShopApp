@@ -1,0 +1,38 @@
+﻿@using InhumanShopApp.Models.Cart
+@model CheckoutViewModel
+
+<h2>Completing an order</h2>
+
+<form asp-action="Checkout" method="post">
+    <input type="hidden" name="OrderId" value="@Model.OrderId" />
+
+    <div>
+        <label for="CardNumber">Number of card</label>
+        <input type="text" id="CardNumber" name="CardNumber" value="@Model.CardNumber" required />
+    </div>
+
+    <div>
+        <label for="CardHolderName">Card holder name</label>
+        <input type="text" id="CardHolderName" name="CardHolderName" value="@Model.CardHolderName" required />
+    </div>
+
+
+    <div>
+        <label for="CVV">CVV</label>
+        <input type="text" id="CVV" name="CVV" value="@Model.CVV" required />
+    </div>
+
+    <h3>Total amount to pay: @Model.TotalPrice</h3>
+
+    <div class="btns w-100 d-flex justify-content-between">
+        <a asp-controller="Cart" asp-action="ViewCart" class="btn btn-warning w-45 float-end">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <button type="submit" class="btn btn-warning w-45 float-end">Complete the order</button>
+    </div>
+</form>
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/cart.css" />
+}

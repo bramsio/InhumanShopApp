@@ -25,11 +25,18 @@ namespace InhumanShopApp.Infrastructure.Data.Models
         [Comment("Total price of order")]
         public decimal TotalPrice { get; set; }
 
+        [Required]
+        public int StatusId { get; set; }
+
+
+        [ForeignKey("StatusId")]
         [Required(ErrorMessage = requireFieldMessage)]
         [StringLength(statusMaxLength)]
         [Comment("Status of order")]
         public Status Status { get; set; } = null!;
 
         public IList<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
+        public Payment Payment { get; set; } = null!;
     }
 }

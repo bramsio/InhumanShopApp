@@ -39,6 +39,7 @@ namespace InhumanShopApp.Data
             ProductSeedData.Seed(builder);
             SizeSeedData.Seed(builder);
             VeterinarianSeedData.Seed(builder);
+            StatusSeedData.Seed(builder);
         }
 
 
@@ -49,6 +50,7 @@ namespace InhumanShopApp.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Status> Statuses { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
     }
 }

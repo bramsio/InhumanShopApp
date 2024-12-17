@@ -43,10 +43,35 @@ namespace InhumanShopApp.Controllers
 
 
 
-        //Details for Vets
+        // Details for a specific veterinarian
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
 
-        //[Authorize] Add Vet (admins can adding vet)
+            var veterinarian = await context.Users
+                .OfType<Veterinarian>()
+                .FirstOrDefaultAsync(v => v.Id == id);
 
-        //And maybe anything for profil or register idk 
+            if (veterinarian == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new VeterinarianDetailsViewModel
+            {
+                Id = veterinarian.Id,
+                Name = veterinarian.Name,
+                Specialization = veterinarian.Specialization,
+                YearsOfExperience = veterinarian.YearsOfExperience,
+                TelNumber = veterinarian.TelNumber,
+                Email = veterinarian.Email 
+            };
+
+            return View(viewModel);
+        }
     }
 }

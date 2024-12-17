@@ -2,6 +2,7 @@
 @model ProductDetailsViewModel
 @{
     ViewData["Title"] = "Product Details";
+
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
@@ -23,51 +24,63 @@
     </div>
 
     <div class="col-md-8">
-        <div class="card-body" style="background-color: rgba(169, 169, 169, 0.9); border-radius: 8px; color: white;">
-            <h5 class="card-title">@Model.Name</h5>
-            <hr />
-            <p class="card-text">@Model.Description</p>
-            <hr />
-            <p class="card-text"><small class="text-muted">Category: @Model.Category</small></p>
-            @* <p class="card-text"><small class="text-muted">Publisher: @Model.Quantity</small></p> *@
-            <div class="col-sm-6 mb-2">
-                <label asp-for="@Model.SizeId" class="form-label-add-edit">Select Size</label>
-                <select asp-for="@Model.SizeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Sizes, "Id", "Name"))">
-                    <option value="">...</option>
-                </select>
-                <span asp-validation-for="@Model.SizeId" class="text-danger"></span>
-            </div>
-            <hr />
-        </div>
-        <div class="card-footer text-center">
-            <div class="d-flex justify-content-between align-items-center">
-                
-                @if (!User.IsInRole("Administrator"))
+        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+            <div class="card-body" style="background-color: rgba(169, 169, 169, 0.9); border-radius: 8px; color:    white;">
+                <h5 class="card-title">@Model.Name</h5>
+                <hr />
+                <p class="card-text">@Model.Description</p>
+                <hr />
+                <p class="card-text"><small class="text-muted">Category: @Model.Category</small></p>
+
+                <input type="hidden" name="productId" value="@Model.Id" />
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.SizeId" class="form-label-add-edit">Select Size</label>
+                    <select asp-for="@Model.SizeId" class="form-control" aria-required="true" asp-items="@(new  SelectList(Model.Sizes, "Id", "Name"))">
+                        <option value="">...</option>
+                    </select>
+                    <span asp-validation-for="@Model.SizeId" class="text-danger"></span>
+                </div>
+                @if (TempData["Error"] != null)
                 {
-                    <a asp-controller="Destination" asp-action="Index" class="btn btn-warning w-50" style="color:black; background-color: white; transition: background-color 0.3s ease, color 0.3s ease;">
-                        <i class="fas fa-arrow-left"></i> Back
-                    </a>
-                    <form asp-controller="Destination" asp-action="AddToFavorites" method="post" class="d-flex w-50">
-                        <input type="hidden" name="id" value="@Model.Id" />
-                        <button type="submit" class="btn btn-success " style="color:black; background-color: white; transition: background-color 0.3s ease, color 0.3s ease;">
-                            <i class="fas fa-heart"></i> Add to Cart
+                    <div class="alert alert-danger">@TempData["Error"]</div>
+                }
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.Quantity" class="form-label-add-edit">Product Quantity</label>
+                    <input asp-for="@Model.Quantity" name="Quantity" value="1" min="1"  class="form-control" aria-required="true" />
+                    <span asp-validation-for="@Model.Quantity" class="text-danger"></span>
+                </div>
+
+                <hr />
+            </div>
+            <div class="card-footer text-center">
+                <div class="d-flex justify-content-between align-items-center">
+                    
+                    @if (!User.IsInRole("Administrator"))
+                    {
+                        <a asp-controller="UserProduct" asp-action="Index" class="btn btn-warning w-50"     style="color:black; background-color: white; transition: background-color 0.3s ease, color   0.3s ease;">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                        <button class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit">
+                            <i class="fas fa-save"></i> Add to Cart
                         </button>
-                    </form>
-                }
-                else
-                {
-                    <a asp-controller="Destination" asp-action="Index" class="btn btn-warning" style="color:black; background-color: white; transition: background-color 0.3s ease, color 0.3s ease;">
-                        <i class="fas fa-arrow-left"></i> Back
-                    </a>
-                    <a asp-controller="Destination" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary" style="color:black; background-color: white; transition: background-color 0.3s ease, color 0.3s ease;">
-                        <i class="fas fa-edit"></i> Edit
-                    </a>
-                    <a asp-controller="Destination" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger" style="color:black; background-color: white; transition: background-color 0.3s ease, color 0.3s ease;">
-                        <i class="fas fa-trash"></i> Delete
-                    </a>
-                }
+                    }
+                    else
+                    {
+                        <a asp-controller="UserProduct" asp-action="Index" class="btn btn-warning"  style="color:black; background-color: white; transition: background-color 0.3s ease, color    0.3s ease;">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-  primary" style="color:black; background-color: white; transition: background-color 0.3s   ease, color 0.3s ease;">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-    danger" style="color:black; background-color: white; transition: background-color 0.3s  ease, color 0.3s ease;">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    }
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 

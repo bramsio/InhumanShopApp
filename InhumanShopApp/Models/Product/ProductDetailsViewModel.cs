@@ -45,6 +45,6 @@ namespace InhumanShopApp.Models.Product
 
         public int? Count { get; set; } // Брой налични продукти, вижда се само от администратори
 
-        public IEnumerable<CategoryViewModel> Sizes { get; set; } = new List<CategoryViewModel>();
+        public IEnumerable<SizeViewModel> Sizes { get; set; } = new List<SizeViewModel>();
     }
 }

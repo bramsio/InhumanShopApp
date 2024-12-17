@@ -14,6 +14,6 @@ namespace InhumanShopApp.Infrastructure.Data.Models
         [Required]
         [MaxLength(statusNameMaxLength)]
         public string Name { get; set; } = string.Empty;
-        // Статус на поръчката (напр. "Pending", "Completed", "Cancelled")
+        
     }
 }

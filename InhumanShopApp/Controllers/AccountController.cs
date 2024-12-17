@@ -44,7 +44,8 @@ namespace InhumanShopApp.Controllers
             var user = new User
             {
                 UserName = model.Email,
-                Email = model.Email
+                Email = model.Email,
+                Name = model.Name
             };
 
             var result = await userManager.CreateAsync(user, model.Password);

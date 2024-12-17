@@ -29,7 +29,7 @@ namespace InhumanShopApp.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Specialization = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     YearsOfExperience = table.Column<int>(type: "int", nullable: true),
                     TelNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -230,7 +230,6 @@ namespace InhumanShopApp.Data.Migrations
                     Count = table.Column<int>(type: "int", nullable: false, comment: "Product count"),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false, comment: "Product Price"),
                     SizeId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false, comment: "Product quanity"),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: false, comment: "Product description"),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Product image url")
@@ -288,7 +287,8 @@ namespace InhumanShopApp.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    SizeId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false, comment: "Product quanity"),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -304,6 +304,34 @@ namespace InhumanShopApp.Data.Migrations
                         name: "FK_OrderItems_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_OrderItems_Sizes_SizeId",
+                        column: x => x.SizeId,
+                        principalTable: "Sizes",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    CardNumber = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
+                    CardHolderName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExpiryDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CVV = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Payments_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -313,28 +341,28 @@ namespace InhumanShopApp.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "6f11f079-c87c-4a81-8a9f-d1e4736c42f4", "User", "USER" },
-                    { "2", "5f6702b6-73df-4c48-825f-f165ed593937", "Veterinarian", "VETERINARIAN" },
-                    { "3", "642a22cd-6342-4887-9f14-23e7839b5c13", "Administrator", "ADMINISTRATOR" }
+                    { "1", "1379f661-397a-4fd8-89f4-a39dc95db553", "User", "USER" },
+                    { "2", "f6a9cbab-1ad6-4cd1-b9d4-d3be54433ffd", "Veterinarian", "VETERINARIAN" },
+                    { "3", "2b31451c-50bf-456f-aa9d-fbca5edc120a", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "7699db7d-964f-4782-8209-d76562e0fece", 0, "c64987f3-7852-45a9-bfbe-ae054b33f164", "User", "admin@zooshop.com", true, false, null, "Belgin", "ADMIN@ZOOSHOP.COM", "ADMIN@ZOOSHOP.COM", "AQAAAAEAACcQAAAAEPSjdE3ESS3Vp5Np7dSalQnAneY7BLoV6XDRw3j3eY/gj58Nxq4GNbTQRK9bOyXElA==", null, false, "adbc5886-0185-48ff-822c-f7e1809d44c7", false, "admin@zooshop.com" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserType" },
+                values: new object[] { "7699db7d-964f-4782-8209-d76562e0fece", 0, "bf8da58c-4808-46ab-80c8-8569091f2bdc", "admin@zooshop.com", true, false, null, "Belgin", "ADMIN@ZOOSHOP.COM", "ADMIN@ZOOSHOP.COM", "AQAAAAEAACcQAAAAEIalrMJz7r9Tm1sGi0zlXa+9AQSKSJKANGDjl3tG35H6SRZ6apKiLmZLSqQ3tlr/7w==", null, false, "f81de5cf-52d0-4fe6-9662-7a221094cdd7", false, "admin@zooshop.com", "User" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Specialization", "TelNumber", "TwoFactorEnabled", "UserName", "YearsOfExperience" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Specialization", "TelNumber", "TwoFactorEnabled", "UserName", "UserType", "YearsOfExperience" },
                 values: new object[,]
                 {
-                    { "a1b2c3d4-1234-5678-9876-abcdefabcdef", 0, "cfd07ba8-7982-45d8-b919-ad4b4c373b44", "Veterinarian", "sarah@zooshop.com", false, false, null, "Dr. Sarah Johnson", null, null, "AQAAAAEAACcQAAAAEFBu1r5ttUMJCW3x2IsT9fXUEDhiRivEZj1Wg7G1HcLb6CxcsYHGdOr0jt56WPUVwA==", null, false, "f4c054e3-c2bf-45a0-8ebc-0507ad76d549", "Small Animals", "+359888123456", false, null, 8 },
-                    { "a1b2c3d4-2345-6789-9876-abcdefabcdef", 0, "7c061e07-e54f-4a67-aeef-3464969f5edc", "Veterinarian", "michael@zooshop.com", false, false, null, "Dr. Michael Brown", null, null, "AQAAAAEAACcQAAAAELE1ZPNmBqFE7nzZWxgiEmewbhTqrdc2Bx9DiEYTAlrWkSeRHQAEiIBevpGNC7tFAg==", null, false, "705b0bf9-051c-43c3-88cc-a878b3b7c6f0", "Exotic Animals", "+359888654321", false, null, 12 },
-                    { "a1b2c3d4-3456-7890-9876-abcdefabcdef", 0, "166d39c3-82ba-4057-a353-d933138706e0", "Veterinarian", "emma@zooshop.com", false, false, null, "Dr. Emma Davis", null, null, "AQAAAAEAACcQAAAAEBOs/tmSxn+y8IloY/y1dq3Az5kNYKIzVAqTVHaXtNgOW7lvCQjlufExSqxoTvNUdQ==", null, false, "27cbb609-2de0-4405-8f6f-fa374b5cf1c7", "Large Animals", "+359888987654", false, null, 10 },
-                    { "a1b2c3d4-4567-8901-9876-abcdefabcdef", 0, "b0dd164a-ff40-417a-b967-60db64c695bb", "Veterinarian", "john@zooshop.com", false, false, null, "Dr. John Smith", null, null, "AQAAAAEAACcQAAAAENy32nghSsFmPMZWowIzxGnvRRohUdOAw86S+e2RrigKUoCbsDHknGbb+FxSIeV4kA==", null, false, "10d1db54-5d4e-48c3-b7d0-a92b7d771551", "Birds", "+359888456789", false, null, 6 },
-                    { "a1b2c3d4-5678-9012-9876-abcdefabcdef", 0, "adc4fad7-dd4a-4872-952a-864e1d5e9299", "Veterinarian", "olivia@zooshop.com", false, false, null, "Dr. Olivia Wilson", null, null, "AQAAAAEAACcQAAAAENy2+4LbSpespP5oH6gdI1unuCRdCmYXIfyPpgeSONmkPtrpJEjgQlLHu/87vd7mkg==", null, false, "02696368-0f23-4c26-971b-96d006166e62", "Reptiles", "+359888123789", false, null, 7 },
-                    { "a1b2c3d4-6789-0123-9876-abcdefabcdef", 0, "33ef44dc-65ae-4c37-8e8c-61876fe6b6d5", "Veterinarian", "william@zooshop.com", false, false, null, "Dr. William Garcia", null, null, "AQAAAAEAACcQAAAAEEDexIyPn7WgQCE8qUi+vCBBex3ZrSphMmmOnBF0//VV1tECKAxX5xdPUJ5PIs5/Tw==", null, false, "9ed6d645-b679-466e-a06f-81a1edd81271", "Fish", "+359888654987", false, null, 5 },
-                    { "a1b2c3d4-7890-1234-9876-abcdefabcdef", 0, "569dc501-b972-4910-907f-c9d2a3bf0047", "Veterinarian", "sophia@zooshop.com", false, false, null, "Dr. Sophia Martinez", null, null, "AQAAAAEAACcQAAAAEM+Uw3GUq2qAXvM90r0bljUyu87u5LNEVmaIxZOCNL3udTO/vfd4mQWnis+ACX74dg==", null, false, "054e614e-36a9-4f21-b033-ea5cf1156079", "Wildlife", "+359888987123", false, null, 15 }
+                    { "a1b2c3d4-1234-5678-9876-abcdefabcdef", 0, "3d4c5f67-9e63-488e-adf4-6c223108489f", "sarah@zooshop.com", false, false, null, "Dr. Sarah Johnson", null, null, "AQAAAAEAACcQAAAAENpKkO2IaSlCktFbWWUzEEfOY2wNovHfS+OY6mfiO/YDnNH+mZrZAPedNGeF2AuPFg==", null, false, "1fc13e1d-afaa-4029-b657-9787f6aeeaf2", "Small Animals", "+359888123456", false, null, "Veterinarian", 8 },
+                    { "a1b2c3d4-2345-6789-9876-abcdefabcdef", 0, "5e34761a-84df-406b-802f-713b7bcf2eef", "michael@zooshop.com", false, false, null, "Dr. Michael Brown", null, null, "AQAAAAEAACcQAAAAELgSBauUbtHhzljlBu5SrVowkv+6zdCf/yDqVO9OnmL05vdbtwWFlOa4XvU1EOsZJA==", null, false, "c0e821dd-cf3c-4b22-bed1-8fe3d2d7a29d", "Exotic Animals", "+359888654321", false, null, "Veterinarian", 12 },
+                    { "a1b2c3d4-3456-7890-9876-abcdefabcdef", 0, "edcda660-cda2-49a0-9182-045b734ade3e", "emma@zooshop.com", false, false, null, "Dr. Emma Davis", null, null, "AQAAAAEAACcQAAAAEIPIKWJ5ufXI+Sznjo9KnNtQNjzELu56x5mZmXNN7H7reTKgmhJ5EpX0+Y1TbAN0hw==", null, false, "e0ef2d6d-da5a-402a-83c0-ee5bc8693ee8", "Large Animals", "+359888987654", false, null, "Veterinarian", 10 },
+                    { "a1b2c3d4-4567-8901-9876-abcdefabcdef", 0, "01e3aa05-a3e0-40a7-b1a3-8ecb8867ee61", "john@zooshop.com", false, false, null, "Dr. John Smith", null, null, "AQAAAAEAACcQAAAAEG+UhXC6JuneBHSrJWv8BYNcMWGNtAC3YBPwHanfK5pCX9EAOmj3swC61iTkDQdY1A==", null, false, "00ba9ee9-df24-486a-a078-528ae9cf27c9", "Birds", "+359888456789", false, null, "Veterinarian", 6 },
+                    { "a1b2c3d4-5678-9012-9876-abcdefabcdef", 0, "a2424eb8-b0fd-48d4-9ece-24c49392c8eb", "olivia@zooshop.com", false, false, null, "Dr. Olivia Wilson", null, null, "AQAAAAEAACcQAAAAEDWNqpZ3bDmf67AVzmoMLYSwZzMt0LVfHdNFaPKj3pM0BRqjNpmwMHlhKFhlKHhAbQ==", null, false, "854850ac-4944-4d14-97b5-15abce3b0afc", "Reptiles", "+359888123789", false, null, "Veterinarian", 7 },
+                    { "a1b2c3d4-6789-0123-9876-abcdefabcdef", 0, "f9a61b91-620f-4e7e-8fb9-1bd4d5529dd8", "william@zooshop.com", false, false, null, "Dr. William Garcia", null, null, "AQAAAAEAACcQAAAAEPk+BTvr8mjujsrZ1WIyGhIv5zXs9ZlsS5Ksbx0cPYaKiiLa2VoXMSok1IftTITmWw==", null, false, "7aecd91e-741b-4845-a9f2-2fc32529f865", "Fish", "+359888654987", false, null, "Veterinarian", 5 },
+                    { "a1b2c3d4-7890-1234-9876-abcdefabcdef", 0, "bd12b833-3aae-472f-9756-d1ccac335826", "sophia@zooshop.com", false, false, null, "Dr. Sophia Martinez", null, null, "AQAAAAEAACcQAAAAEDGVHLz1lxtzB41PZOMj40hQQt3b86boZzhJt3YMHTVl2sMzK7VwgKnzWmGS7/j6lw==", null, false, "10263de7-8197-414b-bc48-a5a5cd315c29", "Wildlife", "+359888987123", false, null, "Veterinarian", 15 }
                 });
 
             migrationBuilder.InsertData(
@@ -362,6 +390,16 @@ namespace InhumanShopApp.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Statuses",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Active" },
+                    { 2, "Completed" },
+                    { 3, "Cancelled" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
@@ -378,19 +416,19 @@ namespace InhumanShopApp.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "CategoryId", "Count", "Description", "ImageUrl", "Name", "Price", "Quantity", "SizeId" },
+                columns: new[] { "Id", "CategoryId", "Count", "Description", "ImageUrl", "Name", "Price", "SizeId" },
                 values: new object[,]
                 {
-                    { 1, 5, 50, "High-quality dog food for adult dogs.", "images/Products/Premium_Dog_Food.jpg", "Premium Dog Food", 45.99m, 1, 3 },
-                    { 2, 2, 20, "Durable scratching post for cats.", "images/Products/Cat_Scratching_Post.jpg", "Cat Scratching Post", 29.99m, 1, 4 },
-                    { 3, 2, 100, "Rubber chew toy to keep your dog entertained.", "images/Products/Dog_Chew_Toy.jpg", "Dog Chew Toy", 15.49m, 1, 2 },
-                    { 4, 4, 75, "Adjustable cat collar with a small bell.", "images/Products/Cat_Collar_with_Bell.jpg", "Cat Collar with Bell", 9.99m, 1, 2 },
-                    { 5, 4, 30, "Comfortable bed for medium-sized dogs.", "images/Products/Dog_And_Cat_Bed.jpg", "Dog And Cat Bed", 59.99m, 1, 3 },
-                    { 6, 5, 40, "Cat litter with odor-neutralizing technology.", "images/Products/Cat_Litter-Odor_Control.jpg", "Cat Litter - Odor Control", 19.99m, 1, 5 },
-                    { 7, 3, 60, "Gentle shampoo for dogs with sensitive skin.", "images/Products/Dog_Shampoo-Sensitive_Skin.jpg", "Dog Shampoo - Sensitive Skin", 12.49m, 1, 1 },
-                    { 8, 5, 200, "Delicious salmon-flavored treats for cats.", "images/Products/Cat_Treats-Salmon_Flavor.jpg", "Cat Treats - Salmon Flavor", 5.99m, 1, 2 },
-                    { 9, 4, 25, "Adjustable harness for comfortable walks.", "images/Products/Dog_Harness-Adjustable.jpg", "Dog Harness - Adjustable", 24.99m, 1, 3 },
-                    { 10, 2, 15, "Interactive tunnel toy for cats to play and hide.", "images/Products/Cat_Tunnel.jpg", "Cat Tunnel", 34.99m, 1, 4 }
+                    { 1, 5, 50, "High-quality dog food for adult dogs.", "images/Products/Premium_Dog_Food.jpg", "Premium Dog Food", 45.99m, 3 },
+                    { 2, 2, 20, "Durable scratching post for cats.", "images/Products/Cat_Scratching_Post.jpg", "Cat Scratching Post", 29.99m, 4 },
+                    { 3, 2, 100, "Rubber chew toy to keep your dog entertained.", "images/Products/Dog_Chew_Toy.jpg", "Dog Chew Toy", 15.49m, 2 },
+                    { 4, 4, 75, "Adjustable cat collar with a small bell.", "images/Products/Cat_Collar_with_Bell.jpg", "Cat Collar with Bell", 9.99m, 2 },
+                    { 5, 4, 30, "Comfortable bed for medium-sized dogs.", "images/Products/Dog_And_Cat_Bed.jpg", "Dog And Cat Bed", 59.99m, 3 },
+                    { 6, 5, 40, "Cat litter with odor-neutralizing technology.", "images/Products/Cat_Litter-Odor_Control.jpg", "Cat Litter - Odor Control", 19.99m, 5 },
+                    { 7, 3, 60, "Gentle shampoo for dogs with sensitive skin.", "images/Products/Dog_Shampoo-Sensitive_Skin.jpg", "Dog Shampoo - Sensitive Skin", 12.49m, 1 },
+                    { 8, 5, 200, "Delicious salmon-flavored treats for cats.", "images/Products/Cat_Treats-Salmon_Flavor.jpg", "Cat Treats - Salmon Flavor", 5.99m, 2 },
+                    { 9, 4, 25, "Adjustable harness for comfortable walks.", "images/Products/Dog_Harness-Adjustable.jpg", "Dog Harness - Adjustable", 24.99m, 3 },
+                    { 10, 2, 15, "Interactive tunnel toy for cats to play and hide.", "images/Products/Cat_Tunnel.jpg", "Cat Tunnel", 34.99m, 4 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -448,6 +486,11 @@ namespace InhumanShopApp.Data.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_SizeId",
+                table: "OrderItems",
+                column: "SizeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_StatusId",
                 table: "Orders",
                 column: "StatusId");
@@ -456,6 +499,12 @@ namespace InhumanShopApp.Data.Migrations
                 name: "IX_Orders_UserId",
                 table: "Orders",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_OrderId",
+                table: "Payments",
+                column: "OrderId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
@@ -492,25 +541,28 @@ namespace InhumanShopApp.Data.Migrations
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Statuses");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Sizes");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Statuses");
         }
     }
 }

@@ -1,0 +1,59 @@
+﻿@using InhumanShopApp.Models.Cart
+@model CartViewModel
+
+<h2>Your cart</h2>
+
+@if (!Model.Items.Any())
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table class="table transparent-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Size</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.SizeName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price</td>
+                    <td>
+                        <form asp-action="RemoveFromCart" method="post">
+                            <input type="hidden" name="orderId" value="@Model.OrderId" />
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <input type="hidden" name="sizeId" value="@item.SizeId" />
+                            <button type="submit" class="btn btn-info me-2 w-100">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3>Total price: @Model.TotalPrice</h3>
+
+    <div class="btns w-100 d-flex justify-content-between">
+        <a asp-controller="UserProduct" asp-action="Index" class="btn btn-warning w-45 float-end">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <form asp-action="Checkout" method="get" class="w-45 float-end">
+            <input type="hidden" name="orderId" value="@Model.OrderId" />
+            <button type="submit" class="btn btn-warning">To payment</button>
+        </form>
+    </div>
+
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/cart.css" />
+}

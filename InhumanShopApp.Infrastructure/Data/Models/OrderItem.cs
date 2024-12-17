@@ -23,8 +23,15 @@ namespace InhumanShopApp.Infrastructure.Data.Models
         [ForeignKey("ProductId")]
         public Product Product { get; set; } = null!;
 
-        [Required(ErrorMessage = requireFieldMessage)]
-        public int Quantity { get; set; }
+        [Required]
+        public int SizeId { get; set; }
+        [Required]
+        [Comment("Product size")]
+        public Size Size { get; set; } = null!;
+
+        [Required]
+        [Comment("Product quanity")]
+        public int Quantity { get; set; } = 1;
 
         [Required(ErrorMessage = requireFieldMessage)]
         public decimal Price { get; set; }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InhumanShopApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241216155620_InitialMigration")]
+    [Migration("20241217153208_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -153,6 +153,10 @@ namespace InhumanShopApp.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
+                        .HasColumnType("int")
+                        .HasComment("Product quanity");
+
+                    b.Property<int>("SizeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -161,7 +165,49 @@ namespace InhumanShopApp.Data.Migrations
 
                     b.HasIndex("ProductId");
 
+                    b.HasIndex("SizeId");
+
                     b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CVV")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
+
+                    b.Property<string>("CardHolderName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
+                    b.Property<string>("ExpiryDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Product", b =>
@@ -200,10 +246,6 @@ namespace InhumanShopApp.Data.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasComment("Product Price");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int")
-                        .HasComment("Product quanity");
-
                     b.Property<int>("SizeId")
                         .HasColumnType("int");
 
@@ -225,7 +267,6 @@ namespace InhumanShopApp.Data.Migrations
                             ImageUrl = "images/Products/Premium_Dog_Food.jpg",
                             Name = "Premium Dog Food",
                             Price = 45.99m,
-                            Quantity = 1,
                             SizeId = 3
                         },
                         new
@@ -237,7 +278,6 @@ namespace InhumanShopApp.Data.Migrations
                             ImageUrl = "images/Products/Cat_Scratching_Post.jpg",
                             Name = "Cat Scratching Post",
                             Price = 29.99m,
-                            Quantity = 1,
                             SizeId = 4
                         },
                         new
@@ -249,7 +289,6 @@ namespace InhumanShopApp.Data.Migrations
                             ImageUrl = "images/Products/Dog_Chew_Toy.jpg",
                             Name = "Dog Chew Toy",
                             Price = 15.49m,
-                            Quantity = 1,
                             SizeId = 2
                         },
                         new
@@ -261,7 +300,6 @@ namespace InhumanShopApp.Data.Migrations
                             ImageUrl = "images/Products/Cat_Collar_with_Bell.jpg",
                             Name = "Cat Collar with Bell",
                             Price = 9.99m,
-                            Quantity = 1,
                             SizeId = 2
                         },
                         new
@@ -273,7 +311,6 @@ namespace InhumanShopApp.Data.Migrations
                             ImageUrl = "images/Products/Dog_And_Cat_Bed.jpg",
                             Name = "Dog And Cat Bed",
                             Price = 59.99m,
-                            Quantity = 1,
                             SizeId = 3
                         },
                         new
@@ -285,7 +322,6 @@ namespace InhumanShopApp.Data.Migrations
                             ImageUrl = "images/Products/Cat_Litter-Odor_Control.jpg",
                             Name = "Cat Litter - Odor Control",
                             Price = 19.99m,
-                            Quantity = 1,
                             SizeId = 5
                         },
                         new
@@ -297,7 +333,6 @@ namespace InhumanShopApp.Data.Migrations
                             ImageUrl = "images/Products/Dog_Shampoo-Sensitive_Skin.jpg",
                             Name = "Dog Shampoo - Sensitive Skin",
                             Price = 12.49m,
-                            Quantity = 1,
                             SizeId = 1
                         },
                         new
@@ -309,7 +344,6 @@ namespace InhumanShopApp.Data.Migrations
                             ImageUrl = "images/Products/Cat_Treats-Salmon_Flavor.jpg",
                             Name = "Cat Treats - Salmon Flavor",
                             Price = 5.99m,
-                            Quantity = 1,
                             SizeId = 2
                         },
                         new
@@ -321,7 +355,6 @@ namespace InhumanShopApp.Data.Migrations
                             ImageUrl = "images/Products/Dog_Harness-Adjustable.jpg",
                             Name = "Dog Harness - Adjustable",
                             Price = 24.99m,
-                            Quantity = 1,
                             SizeId = 3
                         },
                         new
@@ -333,7 +366,6 @@ namespace InhumanShopApp.Data.Migrations
                             ImageUrl = "images/Products/Cat_Tunnel.jpg",
                             Name = "Cat Tunnel",
                             Price = 34.99m,
-                            Quantity = 1,
                             SizeId = 4
                         });
                 });
@@ -402,6 +434,23 @@ namespace InhumanShopApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Statuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Active"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Completed"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Cancelled"
+                        });
                 });
 
             modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.User", b =>
@@ -414,10 +463,6 @@ namespace InhumanShopApp.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -465,6 +510,10 @@ namespace InhumanShopApp.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("UserType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -477,23 +526,23 @@ namespace InhumanShopApp.Data.Migrations
 
                     b.ToTable("AspNetUsers", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+                    b.HasDiscriminator<string>("UserType").HasValue("User");
 
                     b.HasData(
                         new
                         {
                             Id = "7699db7d-964f-4782-8209-d76562e0fece",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c64987f3-7852-45a9-bfbe-ae054b33f164",
+                            ConcurrencyStamp = "bf8da58c-4808-46ab-80c8-8569091f2bdc",
                             Email = "admin@zooshop.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Name = "Belgin",
                             NormalizedEmail = "ADMIN@ZOOSHOP.COM",
                             NormalizedUserName = "ADMIN@ZOOSHOP.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPSjdE3ESS3Vp5Np7dSalQnAneY7BLoV6XDRw3j3eY/gj58Nxq4GNbTQRK9bOyXElA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIalrMJz7r9Tm1sGi0zlXa+9AQSKSJKANGDjl3tG35H6SRZ6apKiLmZLSqQ3tlr/7w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "adbc5886-0185-48ff-822c-f7e1809d44c7",
+                            SecurityStamp = "f81de5cf-52d0-4fe6-9662-7a221094cdd7",
                             TwoFactorEnabled = false,
                             UserName = "admin@zooshop.com"
                         });
@@ -529,21 +578,21 @@ namespace InhumanShopApp.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "6f11f079-c87c-4a81-8a9f-d1e4736c42f4",
+                            ConcurrencyStamp = "1379f661-397a-4fd8-89f4-a39dc95db553",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "5f6702b6-73df-4c48-825f-f165ed593937",
+                            ConcurrencyStamp = "f6a9cbab-1ad6-4cd1-b9d4-d3be54433ffd",
                             Name = "Veterinarian",
                             NormalizedName = "VETERINARIAN"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "642a22cd-6342-4887-9f14-23e7839b5c13",
+                            ConcurrencyStamp = "2b31451c-50bf-456f-aa9d-fbca5edc120a",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -720,14 +769,14 @@ namespace InhumanShopApp.Data.Migrations
                         {
                             Id = "a1b2c3d4-1234-5678-9876-abcdefabcdef",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cfd07ba8-7982-45d8-b919-ad4b4c373b44",
+                            ConcurrencyStamp = "3d4c5f67-9e63-488e-adf4-6c223108489f",
                             Email = "sarah@zooshop.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Dr. Sarah Johnson",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFBu1r5ttUMJCW3x2IsT9fXUEDhiRivEZj1Wg7G1HcLb6CxcsYHGdOr0jt56WPUVwA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENpKkO2IaSlCktFbWWUzEEfOY2wNovHfS+OY6mfiO/YDnNH+mZrZAPedNGeF2AuPFg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f4c054e3-c2bf-45a0-8ebc-0507ad76d549",
+                            SecurityStamp = "1fc13e1d-afaa-4029-b657-9787f6aeeaf2",
                             TwoFactorEnabled = false,
                             Specialization = "Small Animals",
                             TelNumber = "+359888123456",
@@ -737,14 +786,14 @@ namespace InhumanShopApp.Data.Migrations
                         {
                             Id = "a1b2c3d4-2345-6789-9876-abcdefabcdef",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7c061e07-e54f-4a67-aeef-3464969f5edc",
+                            ConcurrencyStamp = "5e34761a-84df-406b-802f-713b7bcf2eef",
                             Email = "michael@zooshop.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Dr. Michael Brown",
-                            PasswordHash = "AQAAAAEAACcQAAAAELE1ZPNmBqFE7nzZWxgiEmewbhTqrdc2Bx9DiEYTAlrWkSeRHQAEiIBevpGNC7tFAg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELgSBauUbtHhzljlBu5SrVowkv+6zdCf/yDqVO9OnmL05vdbtwWFlOa4XvU1EOsZJA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "705b0bf9-051c-43c3-88cc-a878b3b7c6f0",
+                            SecurityStamp = "c0e821dd-cf3c-4b22-bed1-8fe3d2d7a29d",
                             TwoFactorEnabled = false,
                             Specialization = "Exotic Animals",
                             TelNumber = "+359888654321",
@@ -754,14 +803,14 @@ namespace InhumanShopApp.Data.Migrations
                         {
                             Id = "a1b2c3d4-3456-7890-9876-abcdefabcdef",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "166d39c3-82ba-4057-a353-d933138706e0",
+                            ConcurrencyStamp = "edcda660-cda2-49a0-9182-045b734ade3e",
                             Email = "emma@zooshop.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Dr. Emma Davis",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBOs/tmSxn+y8IloY/y1dq3Az5kNYKIzVAqTVHaXtNgOW7lvCQjlufExSqxoTvNUdQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIPIKWJ5ufXI+Sznjo9KnNtQNjzELu56x5mZmXNN7H7reTKgmhJ5EpX0+Y1TbAN0hw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "27cbb609-2de0-4405-8f6f-fa374b5cf1c7",
+                            SecurityStamp = "e0ef2d6d-da5a-402a-83c0-ee5bc8693ee8",
                             TwoFactorEnabled = false,
                             Specialization = "Large Animals",
                             TelNumber = "+359888987654",
@@ -771,14 +820,14 @@ namespace InhumanShopApp.Data.Migrations
                         {
                             Id = "a1b2c3d4-4567-8901-9876-abcdefabcdef",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b0dd164a-ff40-417a-b967-60db64c695bb",
+                            ConcurrencyStamp = "01e3aa05-a3e0-40a7-b1a3-8ecb8867ee61",
                             Email = "john@zooshop.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Dr. John Smith",
-                            PasswordHash = "AQAAAAEAACcQAAAAENy32nghSsFmPMZWowIzxGnvRRohUdOAw86S+e2RrigKUoCbsDHknGbb+FxSIeV4kA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG+UhXC6JuneBHSrJWv8BYNcMWGNtAC3YBPwHanfK5pCX9EAOmj3swC61iTkDQdY1A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "10d1db54-5d4e-48c3-b7d0-a92b7d771551",
+                            SecurityStamp = "00ba9ee9-df24-486a-a078-528ae9cf27c9",
                             TwoFactorEnabled = false,
                             Specialization = "Birds",
                             TelNumber = "+359888456789",
@@ -788,14 +837,14 @@ namespace InhumanShopApp.Data.Migrations
                         {
                             Id = "a1b2c3d4-5678-9012-9876-abcdefabcdef",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "adc4fad7-dd4a-4872-952a-864e1d5e9299",
+                            ConcurrencyStamp = "a2424eb8-b0fd-48d4-9ece-24c49392c8eb",
                             Email = "olivia@zooshop.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Dr. Olivia Wilson",
-                            PasswordHash = "AQAAAAEAACcQAAAAENy2+4LbSpespP5oH6gdI1unuCRdCmYXIfyPpgeSONmkPtrpJEjgQlLHu/87vd7mkg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDWNqpZ3bDmf67AVzmoMLYSwZzMt0LVfHdNFaPKj3pM0BRqjNpmwMHlhKFhlKHhAbQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "02696368-0f23-4c26-971b-96d006166e62",
+                            SecurityStamp = "854850ac-4944-4d14-97b5-15abce3b0afc",
                             TwoFactorEnabled = false,
                             Specialization = "Reptiles",
                             TelNumber = "+359888123789",
@@ -805,14 +854,14 @@ namespace InhumanShopApp.Data.Migrations
                         {
                             Id = "a1b2c3d4-6789-0123-9876-abcdefabcdef",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "33ef44dc-65ae-4c37-8e8c-61876fe6b6d5",
+                            ConcurrencyStamp = "f9a61b91-620f-4e7e-8fb9-1bd4d5529dd8",
                             Email = "william@zooshop.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Dr. William Garcia",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEDexIyPn7WgQCE8qUi+vCBBex3ZrSphMmmOnBF0//VV1tECKAxX5xdPUJ5PIs5/Tw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPk+BTvr8mjujsrZ1WIyGhIv5zXs9ZlsS5Ksbx0cPYaKiiLa2VoXMSok1IftTITmWw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9ed6d645-b679-466e-a06f-81a1edd81271",
+                            SecurityStamp = "7aecd91e-741b-4845-a9f2-2fc32529f865",
                             TwoFactorEnabled = false,
                             Specialization = "Fish",
                             TelNumber = "+359888654987",
@@ -822,14 +871,14 @@ namespace InhumanShopApp.Data.Migrations
                         {
                             Id = "a1b2c3d4-7890-1234-9876-abcdefabcdef",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "569dc501-b972-4910-907f-c9d2a3bf0047",
+                            ConcurrencyStamp = "bd12b833-3aae-472f-9756-d1ccac335826",
                             Email = "sophia@zooshop.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Dr. Sophia Martinez",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM+Uw3GUq2qAXvM90r0bljUyu87u5LNEVmaIxZOCNL3udTO/vfd4mQWnis+ACX74dg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDGVHLz1lxtzB41PZOMj40hQQt3b86boZzhJt3YMHTVl2sMzK7VwgKnzWmGS7/j6lw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "054e614e-36a9-4f21-b033-ea5cf1156079",
+                            SecurityStamp = "10263de7-8197-414b-bc48-a5a5cd315c29",
                             TwoFactorEnabled = false,
                             Specialization = "Wildlife",
                             TelNumber = "+359888987123",
@@ -878,12 +927,31 @@ namespace InhumanShopApp.Data.Migrations
                     b.HasOne("InhumanShopApp.Infrastructure.Data.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("InhumanShopApp.Infrastructure.Data.Models.Size", "Size")
+                        .WithMany()
+                        .HasForeignKey("SizeId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+
+                    b.Navigation("Size");
+                });
+
+            modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Payment", b =>
+                {
+                    b.HasOne("InhumanShopApp.Infrastructure.Data.Models.Order", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("InhumanShopApp.Infrastructure.Data.Models.Payment", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Product", b =>
@@ -964,6 +1032,9 @@ namespace InhumanShopApp.Data.Migrations
             modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
+
+                    b.Navigation("Payment")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("InhumanShopApp.Infrastructure.Data.Models.Size", b =>

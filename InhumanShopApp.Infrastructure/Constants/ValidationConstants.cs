@@ -21,7 +21,7 @@ namespace InhumanShopApp.Infrastructure.Constants
     public static class UserConstants
     {
         public const int userNameMaxLength = 50;
-        public const int userNameMinLength = 5;
+        public const int userNameMinLength = 3;
 
         public const int passwordMaxLength = 40;
         public const int passwordMinLength = 8;

@@ -30,9 +30,6 @@ namespace InhumanShopApp.Infrastructure.Data.Models
         [Comment("Product size")]
         public Size Size { get; set; } = null!;
 
-        [Required]
-        [Comment("Product quanity")]
-        public int Quantity { get; set; } = 1;
 
         [Required]
         public int CategoryId { get; set; }

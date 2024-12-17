@@ -1,0 +1,16 @@
+﻿@using InhumanShopApp.Models.Veterinarian
+@model VeterinarianDetailsViewModel
+
+<h1>@Model.Name</h1>
+<div class="info" style="color: white; background-color: rgba(169, 169, 169, 0.9); padding: 10px; border-radius: 8px; margin-bottom: 20px;">
+    <p>Specialization: @Model.Specialization</p>
+    <p>Years of Experience: @Model.YearsOfExperience</p>
+    <p>Phone Number: @Model.TelNumber</p>
+    <p>Email Address: @Model.Email</p>
+</div>
+
+<a href="@Url.Action("Index", "Veterinarian")" class="btn btn-primary float-end">Back to All Vets</a>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/veterinarian.css" />
+}
