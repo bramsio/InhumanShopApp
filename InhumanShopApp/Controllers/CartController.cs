@@ -233,6 +233,42 @@ namespace InhumanShopApp.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateQuantity(int productId, int sizeId, int quantity)
+        {
+            var userId = GetUserId();
+            var cart = await context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(o => o.UserId == userId && o.Status.Name == "Active");
+
+            if (cart == null)
+            {
+                return NotFound();
+            }
+
+            var orderItem = cart.OrderItems.FirstOrDefault(oi => oi.ProductId == productId && oi.SizeId == sizeId);
+            if (orderItem == null)
+            {
+                return NotFound();
+            }
+
+            // Обновяваме количеството на продукта
+            orderItem.Quantity = quantity;
+
+            // Обновяваме общата цена на количката
+            cart.TotalPrice = cart.OrderItems.Sum(oi => oi.Quantity * oi.Price);
+
+            await context.SaveChangesAsync();
+
+            // Връщаме новата цена като част от отговор
+            return Json(new { totalPrice = cart.TotalPrice });
+        }
+
+
+
+
+
+
 
 
         private string GetUserId()

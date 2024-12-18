@@ -30,7 +30,11 @@ else
                 <tr>
                     <td>@item.ProductName</td>
                     <td>@item.SizeName</td>
-                    <td>@item.Quantity</td>
+                    <td>
+                        <button type="button" class="quantity-decrease" data-item-id="@item.ProductId" data-size-id="@item.SizeId">-</button>
+                        <span class="quantity-value">@item.Quantity</span>
+                        <button type="button" class="quantity-increase" data-item-id="@item.ProductId" data-size-id="@item.SizeId">+</button>
+                    </td>
                     <td>@item.Price</td>
                     <td>
                         <form asp-action="RemoveFromCart" method="post">
@@ -45,7 +49,7 @@ else
         </tbody>
     </table>
 
-    <h3>Total price: @Model.TotalPrice</h3>
+    <h3>Total price: <span id="totalPrice">@Model.TotalPrice</span></h3>
 
     <div class="btns w-100 d-flex justify-content-between">
         <a asp-controller="UserProduct" asp-action="Index" class="btn btn-warning w-45 float-end">
@@ -58,7 +62,65 @@ else
     </div>
 
 }
-
 @section Styles {
     <link rel="stylesheet" href="~/css/cart.css" />
 }
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Когато натиснете стрелката за намаляване
+            $(".quantity-decrease").click(function () {
+                var itemId = $(this).data("item-id");
+                var sizeId = $(this).data("size-id");
+                var currentQuantity = parseInt($(this).next(".quantity-value").text());
+
+                if (currentQuantity > 1) { // Не позволява количеството да стане 0
+                    updateQuantity(itemId, sizeId, currentQuantity - 1);
+                }
+            });
+
+            // Когато натиснете стрелката за увеличаване
+            $(".quantity-increase").click(function () {
+                var itemId = $(this).data("item-id");
+                var sizeId = $(this).data("size-id");
+                var currentQuantity = parseInt($(this).prev(".quantity-value").text());
+
+                updateQuantity(itemId, sizeId, currentQuantity + 1);
+            });
+
+            // Функция за актуализиране на количеството
+            function updateQuantity(itemId, sizeId, newQuantity) {
+                $.ajax({
+                    url: '/Cart/UpdateQuantity', // Пътя до метода за обновяване
+                    type: 'POST',
+                    data: {
+                        productId: itemId,
+                        sizeId: sizeId,
+                        quantity: newQuantity
+                    },
+                    success: function (response) {
+                        console.log("Received response:", response); // Печата отговора в конзолата
+
+                        // Актуализирате количеството на продукта на страницата
+                        $("button[data-item-id='" + itemId + "'][data-size-id='" + sizeId + "']")
+                            .next(".quantity-value").text(newQuantity);
+
+                        // Актуализирате общата цена на количката
+                        if (response.totalPrice) {
+                            $("#totalPrice").text(response.totalPrice.toFixed(2)); // Променете с id="totalPrice"
+                        } else {
+                            console.error("totalPrice не беше върнат от сървъра.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error updating quantity: " + error);
+                    }
+                });
+            }
+        });
+    </script>
+}
+
+
